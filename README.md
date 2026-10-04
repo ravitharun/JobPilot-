@@ -161,3 +161,37 @@ JobPilot/
 │
 └── 📄 README.md
 ```
+
+## 🚀 Development Roadmap
+
+- [x] **Phase 1 — Project Setup** (React, Vite, Tailwind CSS, Spring Boot, MySQL, Git)
+- [ ] **Phase 2 — Authentication** (User Registration, Login, JWT, Spring Security, Profile Management)
+- [ ] **Phase 3 — Job Management** (Job Entity, Search APIs, Filters, Preferences, Application Tracking)
+- [ ] **Phase 4 — Automation** (Selenium Setup, Portal Workflows, Scheduler, Execution Logs)
+- [ ] **Phase 5 — Dashboard** (Statistics, Analytics, Application Status Tracking)
+- [ ] **Phase 6 — Deployment** (Dockerization, Production Database, Cloud Deployment, Monitoring)
+
+## 🔐 Security & Configuration
+
+- 🔒 JobPilot uses **Spring Security** paired with **JWT (JSON Web Tokens)** for secure, stateless API authorization.
+- 🔑 Passwords are securely hashed before storage.
+- 🛡️ **Sensitive Data Protection:** Environment variables (`.env` / `application.properties`) are used to handle database passwords, JWT secrets, portal credentials, and API keys.
+- 🚫 Sensitive credentials are excluded from version control using `.gitignore`.
+
+## 💡 Future Improvements
+
+- 🤖 AI-based job matching and resume keyword analysis.
+- 🎯 Advanced job recommendation scoring system.
+- 📧 Automated email notifications and reminders.
+- 📑 Resume version management.
+- 🧑‍💻 Dedicated interview tracking module.
+
+## 👨‍💻 Author
+
+**Ravi Tharun**
+
+- 🐙 GitHub: [github.com/ravitharun](https://github.com/ravitharun)
+
+## ⭐ Support
+
+If you find **JobPilot** interesting or useful, please consider giving the repository a **⭐ Star**!
