@@ -164,7 +164,7 @@ JobPilot/
 
 ## 🚀 Development Roadmap
 
-- [x] **Phase 1 — Project Setup** (React, Vite, Tailwind CSS, Spring Boot, MySQL, Git)
+- [ ] **Phase 1 — Project Setup** (React, Vite, Tailwind CSS, Spring Boot, MySQL, Git)
 - [ ] **Phase 2 — Authentication** (User Registration, Login, JWT, Spring Security, Profile Management)
 - [ ] **Phase 3 — Job Management** (Job Entity, Search APIs, Filters, Preferences, Application Tracking)
 - [ ] **Phase 4 — Automation** (Selenium Setup, Portal Workflows, Scheduler, Execution Logs)
