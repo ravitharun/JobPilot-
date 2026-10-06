@@ -12,14 +12,14 @@ import {
 } from "react-icons/fi"
 import MainSidebar from "../Components/MainSidebar"
 import Headers from "../Components/Headers"
+import MobileNavigation from "../Components/MobileNav"
 
 function JobAutomation() {
   return (
     <>
       < div className="min-h-screen bg-slate-50 text-slate-800">
-
         <MainSidebar />
-
+        <MobileNavigation></MobileNavigation>
         <main className="lg:ml-64">
           <Headers></Headers>
           <div className="space-y-6 px-4 py-6 sm:px-6 lg:px-8">
