@@ -1,4 +1,5 @@
-import { toast, Toaster } from "sonner"
+import { Toaster } from "sonner"
+import Dashboard from "./Pages/Dashboard"
 
 function App() {
 
@@ -6,10 +7,12 @@ function App() {
   return (
     <>
       <Toaster closeButton richColors position="bottom-right"></Toaster>
-      <div className=''>
 
 
-      </div>
+
+      <Dashboard></Dashboard>
+      {/* hi */}
+
     </>
   )
 }
