@@ -18,8 +18,12 @@ function MainSidebar() {
                         <div className="flex h-20 items-center border-b border-slate-100 px-6">
                             <div className="flex items-center gap-3">
 
-                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-white">
-                                    <FiBriefcase size={20} />
+                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900">
+                                    <img
+                                        src="/jobpilot-icon.svg"
+                                        alt="JobPilot"
+                                        className="h-6 w-6 object-contain"
+                                    />
                                 </div>
 
                                 <div>
