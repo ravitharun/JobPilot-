@@ -1,5 +1,5 @@
 
-import { FiBriefcase } from 'react-icons/fi'
+
 import SidebarMenu from './SidebarMenu'
 import { Link } from 'react-router-dom'
 
