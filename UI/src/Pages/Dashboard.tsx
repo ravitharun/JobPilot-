@@ -1,9 +1,7 @@
-import React from "react";
 import {
   FiBriefcase,
-  FiHome,
-  FiUser,
-  FiSearch,
+
+
   FiCheckCircle,
   FiClock,
   FiTrendingUp,
@@ -13,6 +11,7 @@ import {
 
 import MainSidebar from "../Components/MainSidebar";
 import Headers from "../Components/Headers";
+import MobileNavigation from "../Components/MobileNav";
 
 const applications = [
   {
@@ -259,9 +258,6 @@ function Dashboard() {
             </section>
 
 
-            {/* =================================================
-                JOB SEARCH SUMMARY
-            ================================================= */}
 
             <section className="rounded-2xl border border-slate-200 bg-white shadow-sm">
 
@@ -376,38 +372,7 @@ function Dashboard() {
       </main>
 
 
-      {/* =====================================================
-          MOBILE BOTTOM NAVIGATION
-      ===================================================== */}
-
-      <nav className="fixed bottom-0 left-0 right-0 z-30 border-t border-slate-200 bg-white lg:hidden">
-
-        <div className="grid h-16 grid-cols-4">
-
-          <MobileNav
-            icon={<FiHome />}
-            label="Home"
-            active
-          />
-
-          <MobileNav
-            icon={<FiBriefcase />}
-            label="Jobs"
-          />
-
-          <MobileNav
-            icon={<FiSearch />}
-            label="Search"
-          />
-
-          <MobileNav
-            icon={<FiUser />}
-            label="Profile"
-          />
-
-        </div>
-
-      </nav>
+      <MobileNavigation></MobileNavigation>
 
     </div>
   );
@@ -480,34 +445,6 @@ function ActivityItem({ value, label }: any) {
   );
 }
 
-
-/* =====================================================
-   MOBILE NAVIGATION
-===================================================== */
-
-function MobileNav({
-  icon,
-  label,
-  active = false,
-}: any) {
-
-  return (
-    <button
-      className={`flex flex-col items-center justify-center gap-1 text-xs ${active
-        ? "text-slate-900"
-        : "text-slate-400"
-        }`}
-    >
-
-      {React.cloneElement(icon, { size: 19 })}
-
-      <span className={active ? "font-semibold" : ""}>
-        {label}
-      </span>
-
-    </button>
-  );
-}
 
 
 export default Dashboard;
