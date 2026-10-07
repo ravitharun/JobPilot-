@@ -8,15 +8,19 @@ import {
 import { useState } from "react";
 import { TfiClose } from "react-icons/tfi";
 import SidebarMenu from "./SidebarMenu";
+import { useDispatch, useSelector } from "react-redux";
+import { UpdateTheme } from "../Store/ThemeSlicer";
 
 function Headers() {
-    const [darkMode, setDarkMode] = useState(false);
 
     const [handelMenu, sethandelMenu] = useState(false);
 
+    const Theme = useSelector((state: any) => state.counter.value);
+
+    const dispatch = useDispatch();
     return (
         <header
-            className={`sticky top-0 z-20 border-b backdrop-blur transition-colors ${darkMode
+            className={`sticky top-0 z-20 border-b backdrop-blur transition-colors ${Theme
                 ? "border-slate-700 bg-slate-900/95"
                 : "border-slate-200 bg-white/95"
                 }`}
@@ -29,7 +33,7 @@ function Headers() {
 
                     {/* Mobile Menu */}
                     <button
-                        className={`rounded-xl p-2.5 transition lg:hidden ${darkMode
+                        className={`rounded-xl p-2.5 transition lg:hidden ${Theme
                             ? "text-slate-300 hover:bg-slate-800"
                             : "text-slate-600 hover:bg-slate-100"
                             }`}
@@ -44,7 +48,7 @@ function Headers() {
 
                     {/* Page Icon */}
                     <div
-                        className={`hidden h-10 w-10 items-center justify-center rounded-xl sm:flex ${darkMode
+                        className={`hidden h-10 w-10 items-center justify-center rounded-xl sm:flex ${Theme
                             ? "bg-white text-slate-900"
                             : "bg-slate-900 text-white"
                             }`}
@@ -57,7 +61,7 @@ function Headers() {
                     <div>
 
                         <p
-                            className={`text-xs font-medium sm:text-sm ${darkMode
+                            className={`text-xs font-medium sm:text-sm ${Theme
                                 ? "text-slate-400"
                                 : "text-slate-500"
                                 }`}
@@ -66,7 +70,7 @@ function Headers() {
                         </p>
 
                         <h2
-                            className={`text-lg font-bold sm:text-xl ${darkMode
+                            className={`text-lg font-bold sm:text-xl ${Theme
                                 ? "text-white"
                                 : "text-slate-900"
                                 }`}
@@ -85,14 +89,14 @@ function Headers() {
 
                     {/* Theme Toggle */}
                     <button
-                        onClick={() => setDarkMode(!darkMode)}
-                        className={`flex h-10 w-10 items-center justify-center rounded-xl border transition ${darkMode
+                        onClick={() => dispatch(UpdateTheme())}
+                        className={`flex h-10 w-10 items-center justify-center rounded-xl border transition ${Theme
                             ? "border-slate-700 bg-slate-800 text-yellow-400 hover:bg-slate-700"
                             : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
                             }`}
-                        title={darkMode ? "Light Mode" : "Dark Mode"}
+                        title={Theme ? "Light Mode" : "Dark Mode"}
                     >
-                        {darkMode ? (
+                        {Theme ? (
                             <FiSun size={19} />
                         ) : (
                             <FiMoon size={19} />
@@ -102,7 +106,7 @@ function Headers() {
 
                     {/* Notification */}
                     <button
-                        className={`relative flex h-10 w-10 items-center justify-center rounded-xl border transition ${darkMode
+                        className={`relative flex h-10 w-10 items-center justify-center rounded-xl border transition ${Theme
                             ? "border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700"
                             : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
                             }`}

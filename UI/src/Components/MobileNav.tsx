@@ -6,6 +6,7 @@ import {
     FiZap,
     FiUser
 } from "react-icons/fi";
+import { useSelector } from "react-redux";
 
 function MobileNav({
     icon,
@@ -13,12 +14,15 @@ function MobileNav({
     active = false,
     route
 }: any) {
+    const Theme = useSelector((state: any) => state.counter.value);
     return (
         <Link to={route}>
             <button
                 className={`flex h-full w-full flex-col items-center justify-center gap-1 text-xs ${active
-                        ? "text-slate-900"
-                        : "text-slate-400"
+                    ? Theme
+                        ? "text-white"
+                        : "text-slate-900"
+                    : "text-slate-400"
                     }`}
             >
                 {React.cloneElement(icon, { size: 19 })}
@@ -32,8 +36,14 @@ function MobileNav({
 }
 
 function MobileNavigation() {
+    const Theme = useSelector((state: any) => state.counter.value);
     return (
-        <nav className="fixed bottom-0 left-0 right-0 z-30 border-t border-slate-200 bg-white lg:hidden">
+        <nav
+            className={`fixed bottom-0 left-0 right-0 z-30 border-t lg:hidden ${Theme
+                    ? "border-slate-700 bg-slate-900/95"
+                    : "border-slate-200 bg-white"
+                }`}
+        >
             <div className="grid h-16 grid-cols-4">
 
                 <MobileNav

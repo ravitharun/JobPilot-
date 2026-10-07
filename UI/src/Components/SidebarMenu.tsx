@@ -9,28 +9,34 @@ import {
 
 import Sidebar from "./Sidebar";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function SidebarMenu() {
+    const Theme = useSelector((state: any) => state.counter.value);
     return (
         <>
-
-
             <nav className="flex-1 px-4 py-6">
 
-                {/* Menu */}
-                <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+
+                <p
+                    className={`mb-3 px-3 text-xs font-semibold uppercase tracking-wider ${Theme
+                        ? "text-slate-400"
+                        : "text-slate-400"
+                        }`}
+                >
                     Menu
                 </p>
 
                 <div className="space-y-1">
+
                     <Link to="/">
                         <Sidebar
                             icon={<FiHome />}
                             label="Dashboard"
                             active
                         />
-
                     </Link>
+
                     <Link to="/Application">
                         <Sidebar
                             icon={<FiBriefcase />}
@@ -51,10 +57,16 @@ function SidebarMenu() {
                             label="Profile"
                         />
                     </Link>
+
                 </div>
 
                 {/* Settings */}
-                <p className="mb-3 mt-8 px-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                <p
+                    className={`mb-3 mt-8 px-3 text-xs font-semibold uppercase tracking-wider ${Theme
+                        ? "text-slate-400"
+                        : "text-slate-400"
+                        }`}
+                >
                     Settings
                 </p>
 
