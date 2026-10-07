@@ -82,6 +82,7 @@ Job seekers often need to search across multiple job portals and repeatedly ente
 
 - **⚛️ React** — User interface
 - **📘 TypeScript** — Type-safe frontend development
+- **🧩 Redux** — Global State Management
 - **🎨 Tailwind CSS** — UI styling
 - **⚡ Vite** — Frontend build tool
 - **🌐 Axios** — API communication
@@ -96,7 +97,7 @@ Job seekers often need to search across multiple job portals and repeatedly ente
 - **🔐 Spring Security** — Authentication & authorization
 - **🔑 JWT** — Token-based authentication
 - **🛢️ Hibernate ORM** — Object-Relational Mapping
-- **📦 Maven** — Dependency management
+- **📦 Gradle** — Dependency management
 
 ### 🗄️ Database
 
