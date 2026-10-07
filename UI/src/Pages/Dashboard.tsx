@@ -77,7 +77,7 @@ const stats = [
 
 function Dashboard() {
   const Theme = useSelector((state: any) => state.counter.value);
-  console.log(Theme);
+
 
   return (
     <>
