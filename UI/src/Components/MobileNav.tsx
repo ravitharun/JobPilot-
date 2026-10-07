@@ -6,28 +6,33 @@ import {
     FiZap,
     FiUser
 } from "react-icons/fi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { UpdateNaviagtion } from "../Store/Navigation";
 
 function MobileNav({
     icon,
     label,
-    active = false,
+
     route
 }: any) {
     const Theme = useSelector((state: any) => state.counter.value);
+    const navigation = useSelector((state: any) => state.navigationPages.value);
+    const updatenavigationPages = useDispatch();
+
     return (
         <Link to={route}>
             <button
-                className={`flex h-full w-full flex-col items-center justify-center gap-1 text-xs ${active
+                className={`mx-auto flex flex-col items-center justify-center gap-0.5 rounded-lg px-2.5 py-1 text-[11px] transition-all ${navigation === label
                     ? Theme
-                        ? "text-white"
-                        : "text-slate-900"
+                        ? "bg-slate-800 text-white"
+                        : "bg-slate-200 text-slate-900"
                     : "text-slate-400"
                     }`}
+                onClick={() => updatenavigationPages(UpdateNaviagtion(label))}
             >
-                {React.cloneElement(icon, { size: 19 })}
+                {React.cloneElement(icon, { size: 18 })}
 
-                <span className={active ? "font-semibold" : ""}>
+                <span className={navigation === label ? "font-semibold" : ""}>
                     {label}
                 </span>
             </button>
@@ -37,15 +42,15 @@ function MobileNav({
 
 function MobileNavigation() {
     const Theme = useSelector((state: any) => state.counter.value);
+
     return (
         <nav
             className={`fixed bottom-0 left-0 right-0 z-30 border-t lg:hidden ${Theme
-                    ? "border-slate-700 bg-slate-900/95"
-                    : "border-slate-200 bg-white"
+                ? "border-slate-700 bg-slate-900/95"
+                : "border-slate-200 bg-white"
                 }`}
         >
-            <div className="grid h-16 grid-cols-4">
-
+            <div className="grid h-14 grid-cols-4 items-center px-5">
                 <MobileNav
                     icon={<FiHome />}
                     label="Dashboard"
@@ -70,7 +75,6 @@ function MobileNavigation() {
                     label="Profile"
                     route="/Profile"
                 />
-
             </div>
         </nav>
     );
