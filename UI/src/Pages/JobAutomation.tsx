@@ -22,8 +22,8 @@ function JobAutomation() {
     <>
       <div
         className={`min-h-screen ${Theme
-            ? "bg-slate-950 text-slate-100"
-            : "bg-slate-50 text-slate-800"
+          ? "bg-slate-950 text-slate-100"
+          : "bg-slate-50 text-slate-800"
           }`}
       >
         <MainSidebar />
@@ -62,8 +62,8 @@ function JobAutomation() {
 
               <button
                 className={`flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold shadow-sm transition ${Theme
-                    ? "border-slate-700 bg-slate-900 text-slate-200 hover:bg-slate-800"
-                    : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                  ? "border-slate-700 bg-slate-900 text-slate-200 hover:bg-slate-800"
+                  : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
                   }`}
               >
                 <FiSettings size={17} />
@@ -114,14 +114,14 @@ function JobAutomation() {
               {/* Jobs Found */}
               <div
                 className={`rounded-2xl border p-5 shadow-sm ${Theme
-                    ? "border-slate-700 bg-slate-900"
-                    : "border-slate-200 bg-white"
+                  ? "border-slate-700 bg-slate-900"
+                  : "border-slate-200 bg-white"
                   }`}
               >
                 <div
                   className={`mb-4 flex h-10 w-10 items-center justify-center rounded-xl ${Theme
-                      ? "bg-slate-800 text-slate-200"
-                      : "bg-slate-100 text-slate-700"
+                    ? "bg-slate-800 text-slate-200"
+                    : "bg-slate-100 text-slate-700"
                     }`}
                 >
                   <FiSearch size={19} />
@@ -142,14 +142,14 @@ function JobAutomation() {
               {/* Applications */}
               <div
                 className={`rounded-2xl border p-5 shadow-sm ${Theme
-                    ? "border-slate-700 bg-slate-900"
-                    : "border-slate-200 bg-white"
+                  ? "border-slate-700 bg-slate-900"
+                  : "border-slate-200 bg-white"
                   }`}
               >
                 <div
                   className={`mb-4 flex h-10 w-10 items-center justify-center rounded-xl ${Theme
-                      ? "bg-slate-800 text-slate-200"
-                      : "bg-slate-100 text-slate-700"
+                    ? "bg-slate-800 text-slate-200"
+                    : "bg-slate-100 text-slate-700"
                     }`}
                 >
                   <FiBriefcase size={19} />
@@ -170,14 +170,14 @@ function JobAutomation() {
               {/* Pending */}
               <div
                 className={`rounded-2xl border p-5 shadow-sm ${Theme
-                    ? "border-slate-700 bg-slate-900"
-                    : "border-slate-200 bg-white"
+                  ? "border-slate-700 bg-slate-900"
+                  : "border-slate-200 bg-white"
                   }`}
               >
                 <div
                   className={`mb-4 flex h-10 w-10 items-center justify-center rounded-xl ${Theme
-                      ? "bg-slate-800 text-slate-200"
-                      : "bg-slate-100 text-slate-700"
+                    ? "bg-slate-800 text-slate-200"
+                    : "bg-slate-100 text-slate-700"
                     }`}
                 >
                   <FiClock size={19} />
@@ -198,14 +198,14 @@ function JobAutomation() {
               {/* Successful */}
               <div
                 className={`rounded-2xl border p-5 shadow-sm ${Theme
-                    ? "border-slate-700 bg-slate-900"
-                    : "border-slate-200 bg-white"
+                  ? "border-slate-700 bg-slate-900"
+                  : "border-slate-200 bg-white"
                   }`}
               >
                 <div
                   className={`mb-4 flex h-10 w-10 items-center justify-center rounded-xl ${Theme
-                      ? "bg-slate-800 text-slate-200"
-                      : "bg-slate-100 text-slate-700"
+                    ? "bg-slate-800 text-slate-200"
+                    : "bg-slate-100 text-slate-700"
                     }`}
                 >
                   <FiCheckCircle size={19} />
@@ -231,8 +231,8 @@ function JobAutomation() {
               {/* Automation Preferences */}
               <section
                 className={`rounded-2xl border shadow-sm xl:col-span-2 ${Theme
-                    ? "border-slate-700 bg-slate-900"
-                    : "border-slate-200 bg-white"
+                  ? "border-slate-700 bg-slate-900"
+                  : "border-slate-200 bg-white"
                   }`}
               >
 
@@ -266,8 +266,8 @@ function JobAutomation() {
 
                     <div
                       className={`flex items-center gap-3 rounded-xl border px-4 py-3 ${Theme
-                          ? "border-slate-700 bg-slate-800"
-                          : "border-slate-200"
+                        ? "border-slate-700 bg-slate-800"
+                        : "border-slate-200"
                         }`}
                     >
                       <FiBriefcase className="text-slate-400" />
@@ -289,8 +289,8 @@ function JobAutomation() {
 
                     <div
                       className={`flex items-center gap-3 rounded-xl border px-4 py-3 ${Theme
-                          ? "border-slate-700 bg-slate-800"
-                          : "border-slate-200"
+                        ? "border-slate-700 bg-slate-800"
+                        : "border-slate-200"
                         }`}
                     >
                       <FiMapPin className="text-slate-400" />
@@ -312,8 +312,8 @@ function JobAutomation() {
 
                     <div
                       className={`rounded-xl border px-4 py-3 ${Theme
-                          ? "border-slate-700 bg-slate-800"
-                          : "border-slate-200"
+                        ? "border-slate-700 bg-slate-800"
+                        : "border-slate-200"
                         }`}
                     >
                       <span
@@ -333,8 +333,8 @@ function JobAutomation() {
 
                     <div
                       className={`rounded-xl border px-4 py-3 ${Theme
-                          ? "border-slate-700 bg-slate-800"
-                          : "border-slate-200"
+                        ? "border-slate-700 bg-slate-800"
+                        : "border-slate-200"
                         }`}
                     >
                       <span
@@ -363,8 +363,8 @@ function JobAutomation() {
               {/* Recent Activity */}
               <section
                 className={`rounded-2xl border shadow-sm ${Theme
-                    ? "border-slate-700 bg-slate-900"
-                    : "border-slate-200 bg-white"
+                  ? "border-slate-700 bg-slate-900"
+                  : "border-slate-200 bg-white"
                   }`}
               >
 
@@ -470,8 +470,152 @@ function JobAutomation() {
 
               </section>
 
+
+
+
+
+            </div>
+            <div className="w-full space-y-4">
+              {/* Header */}
+              <div
+                className={`rounded-xl border px-5 py-4 ${Theme
+                    ? "border-slate-700 bg-slate-900 text-white"
+                    : "border-slate-200 bg-white text-slate-900"
+                  }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h1
+                      className={`text-xl font-bold ${Theme ? "text-white" : "text-slate-900"
+                        }`}
+                    >
+                      Logs
+                    </h1>
+
+                    <p
+                      className={`mt-1 text-sm ${Theme ? "text-slate-400" : "text-slate-500"
+                        }`}
+                    >
+                      Monitor application activity and events
+                    </p>
+                  </div>
+
+                  <span
+                    className={`rounded-full px-3 py-1 text-xs font-semibold ${Theme
+                        ? "bg-slate-800 text-slate-300"
+                        : "bg-slate-100 text-slate-600"
+                      }`}
+                  >
+                    6 Logs
+                  </span>
+                </div>
+              </div>
+
+              {/* Logs */}
+              <div
+                className={`w-full overflow-hidden rounded-xl border ${Theme
+                    ? "border-slate-700 bg-slate-900"
+                    : "border-slate-200 bg-white"
+                  }`}
+              >
+                {[
+                  {
+                    time: "10:42:18 AM",
+                    type: "SUCCESS",
+                    message: "Application submitted successfully",
+                    job: "Java Developer — Infosys",
+                  },
+                  {
+                    time: "10:41:52 AM",
+                    type: "INFO",
+                    message: "Job found and added to application queue",
+                    job: "Spring Boot Developer — TCS",
+                  },
+                  {
+                    time: "10:40:31 AM",
+                    type: "SUCCESS",
+                    message: "Application submitted successfully",
+                    job: "Full Stack Developer — Accenture",
+                  },
+                  {
+                    time: "10:39:14 AM",
+                    type: "INFO",
+                    message: "Searching for matching jobs",
+                    job: "Java / Spring Boot — Bengaluru",
+                  },
+                  {
+                    time: "10:37:46 AM",
+                    type: "WARNING",
+                    message: "Job skipped because salary did not match preference",
+                    job: "Software Engineer — Wipro",
+                  },
+                  {
+                    time: "10:35:22 AM",
+                    type: "ERROR",
+                    message: "Failed to submit application",
+                    job: "Java Developer — Cognizant",
+                  },
+                ].map((log, index) => (
+                  <div
+                    key={index}
+                    className={`flex flex-col gap-3 border-b px-5 py-4 last:border-b-0 sm:flex-row sm:items-center sm:justify-between ${Theme
+                        ? "border-slate-800 hover:bg-slate-800/50"
+                        : "border-slate-100 hover:bg-slate-50"
+                      }`}
+                  >
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span
+                          className={`rounded-md px-2 py-1 text-[10px] font-bold ${log.type === "SUCCESS"
+                              ? Theme
+                                ? "bg-emerald-500/10 text-emerald-400"
+                                : "bg-emerald-50 text-emerald-600"
+                              : log.type === "ERROR"
+                                ? Theme
+                                  ? "bg-red-500/10 text-red-400"
+                                  : "bg-red-50 text-red-600"
+                                : log.type === "WARNING"
+                                  ? Theme
+                                    ? "bg-amber-500/10 text-amber-400"
+                                    : "bg-amber-50 text-amber-600"
+                                  : Theme
+                                    ? "bg-blue-500/10 text-blue-400"
+                                    : "bg-blue-50 text-blue-600"
+                            }`}
+                        >
+                          {log.type}
+                        </span>
+
+                        <p
+                          className={`text-sm font-medium ${Theme
+                              ? "text-slate-200"
+                              : "text-slate-800"
+                            }`}
+                        >
+                          {log.message}
+                        </p>
+                      </div>
+
+                      <p
+                        className={`mt-1 text-sm ${Theme ? "text-slate-400" : "text-slate-500"
+                          }`}
+                      >
+                        {log.job}
+                      </p>
+                    </div>
+
+                    <span
+                      className={`shrink-0 text-xs ${Theme ? "text-slate-500" : "text-slate-400"
+                        }`}
+                    >
+                      {log.time}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
+
         </main>
       </div>
     </>
