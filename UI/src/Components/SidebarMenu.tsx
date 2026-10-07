@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 function SidebarMenu() {
     const Theme = useSelector((state: any) => state.counter.value);
 
-    // console.log(navigation, 'navigation');
+    console.log(navigation, 'navigation');
     return (
         <>
             <nav className="flex-1 px-4 py-6">
