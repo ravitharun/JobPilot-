@@ -31,7 +31,7 @@ public class UserServices {
 			
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(api_err);
 		}
-		
+	
 //		check Application password is emapty
 		if(data.getApplication_password().isBlank()) {
 			api_err.setErrorcode(HttpStatus.NOT_FOUND);
