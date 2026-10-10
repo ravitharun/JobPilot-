@@ -11,7 +11,8 @@ import {
 } from "react-icons/fi";
 import { toast, Toaster } from "sonner";
 import api from "../Components/ApiInsstance";
-import { Error } from "../Components/Error";
+import { Toast } from "../Components/Toast";
+import { Redirectpage } from "../Components/Redirect";
 
 function Signup() {
     const [showPassword, setShowPassword] = useState(false);
@@ -51,20 +52,36 @@ function Signup() {
 
 
         const logindto: any = {
-            name: formData.name,
-            email: formData.email,
-            password: formData.password,
+            username: formData.name,
+            useremail: formData.email,
+            Application_password: formData.password,
         }
 
         try {
             const response = await api.post("/jobPilot/singup", logindto)
 
             console.log(response.data.message)
+
+
+
+            setTimeout(() => {
+                if (response.status == 200) {
+                    return Redirectpage();
+                }
+            }, 2500);
+            Toast({
+                messages: response.data.message || "hey",
+                code: response.status,
+                type: "Error",
+            });
+
+
         } catch (error: any) {
 
-            Error({
-                errormessage: error.data.message,
-                code: error.data.status,
+
+            Toast({
+                messages: error.response?.data?.ErrorMessage,
+                code: error.status,
                 type: "Error",
             });
 
