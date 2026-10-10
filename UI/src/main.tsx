@@ -7,19 +7,19 @@ import JobAutomation from './Pages/JobAutomation.tsx';
 import PageNotFound from './Pages/PageNotFound.tsx';
 import { Provider } from 'react-redux';
 import { store } from './Store/store.ts';
+import Login from './Pages/Login.tsx';
+import Signup from './Pages/SignUp.tsx';
 
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <Provider store={store}>
-
-      <Routes>
-
+<Routes>
         <Route path="*" element={<PageNotFound />} />
-
         <Route path="/" element={<App />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/Automation" element={<JobAutomation />} />
-
       </Routes>
     </Provider>
   </BrowserRouter>

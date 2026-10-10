@@ -120,7 +120,7 @@ function Dashboard() {
                     <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
 
                     <span className="text-sm font-medium text-emerald-300">
-                      Automation Active -{Theme ? "some" : "no"}
+                      Automation Active
                     </span>
 
                   </div>
