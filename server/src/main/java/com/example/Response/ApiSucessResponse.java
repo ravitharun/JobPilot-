@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 
+import com.example.Model.UserModel;
+
 public class ApiSucessResponse {
 	
 	public String message;
@@ -19,14 +21,14 @@ public class ApiSucessResponse {
 	public void setStatusCode(HttpStatus statusCode) {
 		this.statusCode = statusCode;
 	}
-	public Optional<?> getData() {
+	public UserModel getData() {
 		return data;
 	}
-	public void setData(Optional<?> data) {
+	public void setData(UserModel data) {
 		this.data = data;
 	}
 	public HttpStatus statusCode;
-	public Optional<?> data;
+	public UserModel data;
 
 	
 	
