@@ -78,6 +78,7 @@ function Signup() {
 
         } catch (error: any) {
 
+            console.log(error.response.data.ErrorMessage);
 
             Toast({
                 messages: error.response?.data?.ErrorMessage,
