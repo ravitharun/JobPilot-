@@ -9,6 +9,9 @@ import {
     FiEyeOff,
     FiArrowRight,
 } from "react-icons/fi";
+import api from "../Components/ApiInsstance";
+import { Toast } from "../Components/Toast";
+import { Toaster } from "sonner";
 
 function Login() {
     const [showPassword, setShowPassword] = useState(false);
@@ -16,16 +19,44 @@ function Login() {
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
 
         console.log({ email, password, rememberMe });
+
+
+
+
+        try {
+            const response_login = await api.get("/jobPilot/singin", {
+                params: {
+
+                    "useremail": email,
+                    "Application_password": password
+
+                }
+            })
+
+            console.log(response_login, 'response_login')
+            Toast({
+                messages: response_login.data.message || "hey",
+                code: response_login.status,
+                type: "Error",
+            });
+        } catch (error: any) {
+
+            return Toast({
+                messages: error?.response.data.ErrorMessage,
+                code: error.status,
+                type: "Error",
+            });
+        }
     };
 
     return (
         <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4 py-8">
             <div className="w-full max-w-md">
-
+                <Toaster richColors></Toaster>
                 {/* Logo */}
                 <Link
                     to="/"

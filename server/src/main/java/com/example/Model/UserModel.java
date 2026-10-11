@@ -1,5 +1,8 @@
 package com.example.Model;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import com.sun.istack.NotNull;
 
 import jakarta.annotation.Generated;
@@ -8,7 +11,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import net.bytebuddy.implementation.bind.annotation.Default;
 
 @Entity
 @Table(name = "Users")
@@ -23,6 +28,19 @@ public class UserModel {
 	private String userEmail;
 	private String username;
 	private String userPasswoard;
+	private LocalDateTime createdAt;
+
+	@PrePersist
+	public void setCreatedAt() {
+		if (createdAt == null) {
+			createdAt = LocalDateTime.now();
+		}
+	}
+
+	public LocalDateTime getacc() {
+
+		return createdAt;
+	}
 
 	public long getUserApplicationId() {
 		return userApplicationId;
