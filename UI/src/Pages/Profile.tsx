@@ -1,9 +1,9 @@
 
-import React, { useState } from "react";
+import  { useState } from "react";
 import {
     FiUser,
     FiMail,
-    FiPhone,
+    
     FiMapPin,
     FiBriefcase,
     FiFileText,
