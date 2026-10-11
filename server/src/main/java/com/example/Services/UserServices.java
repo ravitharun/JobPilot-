@@ -8,18 +8,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.Dto.SignupDto;
+import com.example.Dto.UserProfileDto;
 import com.example.Model.UserModel;
+import com.example.Model.UserProfileModel;
 import com.example.Dto.LoginDto;
+import com.example.Repository.UserProfileRepo;
 import com.example.Repository.UserRepository;
 import com.example.Response.ApiErrorResponse;
 import com.example.Response.ApiSucessResponse;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class UserServices {
 	@Autowired
 	public UserRepository userRepo;
+	@Autowired
+	public UserProfileRepo userProfileRepo;
 
 	// create a new account logic
+	@Transactional
 	public ResponseEntity<?> Signup(SignupDto data) {
 
 		UserModel u = new UserModel();
@@ -47,9 +55,18 @@ public class UserServices {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(api_err);
 
 		}
+		// Create the profile
+		UserProfileModel user_P = new UserProfileModel();
 
+		// Save the new account first
 		UserModel user = userRepo.save(u);
 
+		// Connect the profile to the saved user
+		user_P.setUserid(u.getUserApplicationId());
+
+		// Save the profile
+		UserProfileModel user_profile_response = userProfileRepo.save(user_P);
+		System.err.println(user_profile_response + "user_profile_response");
 		api_sucess.setData(user);
 		api_sucess.setStatusCode(HttpStatus.OK);
 		api_sucess.setMessage("created anew acount");
@@ -58,7 +75,6 @@ public class UserServices {
 	}
 
 	// Login into the account
-
 	public ResponseEntity<?> Signin(String userEmail, String Application_password) {
 
 		ApiSucessResponse api_sucess = new ApiSucessResponse();

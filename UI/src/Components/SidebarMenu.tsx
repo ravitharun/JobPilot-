@@ -73,10 +73,11 @@ function SidebarMenu() {
                 </p>
 
                 <div className="space-y-1">
-                    <Sidebar
-                        icon={<FiSettings />}
-                        label="Settings"
-                    />
+                    <Link to="/Settings">
+                        <Sidebar
+                            icon={<FiSettings />}
+                            label="Settings"
+                        /></Link>
                 </div>
 
             </nav>
