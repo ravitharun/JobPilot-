@@ -37,6 +37,11 @@ public class UserModel {
 		}
 	}
 
+	public LocalDateTime getacc() {
+
+		return createdAt;
+	}
+
 	public long getUserApplicationId() {
 		return userApplicationId;
 	}
