@@ -6,7 +6,7 @@ import { UpdateNaviagtion } from '../Store/Navigation';
 
 function MainSidebar() {
     const Theme = useSelector((state: any) => state.counter.value);
-    const navigation = useSelector((state: any) => state.navigationPages.value);
+    useSelector((state: any) => state.navigationPages.value);
     const updatenavigationPages = useDispatch();
     return (
         <>
