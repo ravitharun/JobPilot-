@@ -38,11 +38,14 @@ function Login() {
             })
 
             console.log(response_login, 'response_login')
+
+            localStorage.setItem("User", JSON.stringify(response_login?.data?.loginDto))
             Toast({
                 messages: response_login.data.message || "hey",
                 code: response_login.status,
                 type: "Error",
             });
+            window.location.href="/"
         } catch (error: any) {
 
             return Toast({
@@ -161,7 +164,7 @@ function Login() {
                         </div>
 
                         {/* Remember Me */}
-                        <div className="flex items-center gap-2">
+                        {/* <div className="flex items-center gap-2">
                             <input
                                 id="rememberMe"
                                 type="checkbox"
@@ -175,7 +178,7 @@ function Login() {
                             >
                                 Remember me
                             </label>
-                        </div>
+                        </div> */}
 
                         {/* Submit */}
                         <button

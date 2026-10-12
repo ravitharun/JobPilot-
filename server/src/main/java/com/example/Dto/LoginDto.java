@@ -12,6 +12,18 @@ public class LoginDto {
 
     public LocalDateTime Created_Account;
 
+    public String Token;
+
+    public void SetToken(String Token) {
+        this.Token = Token;
+
+    }
+
+    public String GetToken() {
+
+        return Token;
+    }
+
     public long getApplicationuserId() {
         return ApplicationuserId;
     }

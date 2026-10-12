@@ -1,10 +1,13 @@
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import SidebarMenu from './SidebarMenu'
 import { Link } from 'react-router-dom'
+import { UpdateNaviagtion } from '../Store/Navigation';
 
 function MainSidebar() {
     const Theme = useSelector((state: any) => state.counter.value);
+    const navigation = useSelector((state: any) => state.navigationPages.value);
+    const updatenavigationPages = useDispatch();
     return (
         <>
             <aside
@@ -16,8 +19,8 @@ function MainSidebar() {
                 <div className="flex h-full flex-col">
 
                     {/* Logo */}
-                    <Link to="/">
-                        <div
+                    <Link to="/" onClick={() => updatenavigationPages(UpdateNaviagtion("Dashboard"))}>
+                        < div
                             className={`flex h-20 items-center border-b px-6 ${Theme
                                 ? "border-slate-700"
                                 : "border-slate-100"
@@ -106,8 +109,8 @@ function MainSidebar() {
                         </div>
                     </div>
 
-                </div>
-            </aside>
+                </div >
+            </aside >
         </>
     )
 }

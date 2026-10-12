@@ -1,6 +1,6 @@
 package com.example.Services;
 
-import java.util.Optional;
+// import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.Dto.SignupDto;
-import com.example.Dto.UserProfileDto;
+// import com.example.Dto.UserProfileDto;
 import com.example.Model.UserModel;
 import com.example.Model.UserProfileModel;
 import com.example.Dto.LoginDto;
@@ -76,21 +76,24 @@ public class UserServices {
 
 	// Login into the account
 	public ResponseEntity<?> Signin(String userEmail, String Application_password) {
-
 		ApiSucessResponse api_sucess = new ApiSucessResponse();
 		ApiErrorResponse api_Err = new ApiErrorResponse();
-		UserModel u = userRepo.findByUserEmail(userEmail);
-
 		LoginDto login = new LoginDto();
-		login.setUseremail(u.getUserEmail());
+		UserModel u = userRepo.findByUserEmail(userEmail);
+		api_Err.setErrorMessage("No user Found based on the email");
+		api_Err.setErrorcode(HttpStatus.UNAUTHORIZED);
 
-		login.setUserName(u.getUsername());
-		login.setApplicationuserId(u.getUserApplicationId());
-
+		if (u == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(api_Err);
+		}
 		if (u.getUserEmail().equals(userEmail) && u.getUserPasswoard().equals(Application_password)) {
 
+			login.setUseremail(u.getUserEmail());
+			login.setUserName(u.getUsername());
+			login.setApplicationuserId(u.getUserApplicationId());
+			login.SetToken(null);
 			api_sucess.setLoginDto(login);
-			api_sucess.setMessage("Application_password");
+			api_sucess.setMessage("Account verifed");
 			return ResponseEntity.status(HttpStatus.OK).body(api_sucess);
 		}
 		api_Err.setErrorMessage("invalid Credatinals");
