@@ -13,11 +13,15 @@ import {
 import MainSidebar from "../Components/MainSidebar"
 import Headers from "../Components/Headers"
 import MobileNavigation from "../Components/MobileNav"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { UpdateNaviagtion } from "../Store/Navigation";
+import { Link } from "react-router-dom";
 
 function JobAutomation() {
 
   const Theme = useSelector((state: any) => state.counter.value);
+  useSelector((state: any) => state.navigationPages.value);
+  const updatenavigationPages = useDispatch();
   return (
     <>
       <div
@@ -59,16 +63,17 @@ function JobAutomation() {
                   Manage your automated job search and applications.
                 </p>
               </div>
-
-              <button
-                className={`flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold shadow-sm transition ${Theme
-                  ? "border-slate-700 bg-slate-900 text-slate-200 hover:bg-slate-800"
-                  : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
-                  }`}
-              >
-                <FiSettings size={17} />
-                Settings
-              </button>
+              <Link to="/Settings" onClick={() => updatenavigationPages(UpdateNaviagtion("Settings"))}>
+                <button
+                  className={`flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold shadow-sm transition ${Theme
+                    ? "border-slate-700 bg-slate-900 text-slate-200 hover:bg-slate-800"
+                    : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                    }`}
+                >
+                  <FiSettings size={17} />
+                  Settings
+                </button>
+              </Link>
             </div>
 
             {/* Automation Status */}
@@ -479,8 +484,8 @@ function JobAutomation() {
               {/* Header */}
               <div
                 className={`rounded-xl border px-5 py-4 ${Theme
-                    ? "border-slate-700 bg-slate-900 text-white"
-                    : "border-slate-200 bg-white text-slate-900"
+                  ? "border-slate-700 bg-slate-900 text-white"
+                  : "border-slate-200 bg-white text-slate-900"
                   }`}
               >
                 <div className="flex items-center justify-between">
@@ -502,8 +507,8 @@ function JobAutomation() {
 
                   <span
                     className={`rounded-full px-3 py-1 text-xs font-semibold ${Theme
-                        ? "bg-slate-800 text-slate-300"
-                        : "bg-slate-100 text-slate-600"
+                      ? "bg-slate-800 text-slate-300"
+                      : "bg-slate-100 text-slate-600"
                       }`}
                   >
                     6 Logs
@@ -514,8 +519,8 @@ function JobAutomation() {
               {/* Logs */}
               <div
                 className={`w-full overflow-hidden rounded-xl border ${Theme
-                    ? "border-slate-700 bg-slate-900"
-                    : "border-slate-200 bg-white"
+                  ? "border-slate-700 bg-slate-900"
+                  : "border-slate-200 bg-white"
                   }`}
               >
                 {[
@@ -559,28 +564,28 @@ function JobAutomation() {
                   <div
                     key={index}
                     className={`flex flex-col gap-3 border-b px-5 py-4 last:border-b-0 sm:flex-row sm:items-center sm:justify-between ${Theme
-                        ? "border-slate-800 hover:bg-slate-800/50"
-                        : "border-slate-100 hover:bg-slate-50"
+                      ? "border-slate-800 hover:bg-slate-800/50"
+                      : "border-slate-100 hover:bg-slate-50"
                       }`}
                   >
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
                         <span
                           className={`rounded-md px-2 py-1 text-[10px] font-bold ${log.type === "SUCCESS"
+                            ? Theme
+                              ? "bg-emerald-500/10 text-emerald-400"
+                              : "bg-emerald-50 text-emerald-600"
+                            : log.type === "ERROR"
                               ? Theme
-                                ? "bg-emerald-500/10 text-emerald-400"
-                                : "bg-emerald-50 text-emerald-600"
-                              : log.type === "ERROR"
+                                ? "bg-red-500/10 text-red-400"
+                                : "bg-red-50 text-red-600"
+                              : log.type === "WARNING"
                                 ? Theme
-                                  ? "bg-red-500/10 text-red-400"
-                                  : "bg-red-50 text-red-600"
-                                : log.type === "WARNING"
-                                  ? Theme
-                                    ? "bg-amber-500/10 text-amber-400"
-                                    : "bg-amber-50 text-amber-600"
-                                  : Theme
-                                    ? "bg-blue-500/10 text-blue-400"
-                                    : "bg-blue-50 text-blue-600"
+                                  ? "bg-amber-500/10 text-amber-400"
+                                  : "bg-amber-50 text-amber-600"
+                                : Theme
+                                  ? "bg-blue-500/10 text-blue-400"
+                                  : "bg-blue-50 text-blue-600"
                             }`}
                         >
                           {log.type}
@@ -588,8 +593,8 @@ function JobAutomation() {
 
                         <p
                           className={`text-sm font-medium ${Theme
-                              ? "text-slate-200"
-                              : "text-slate-800"
+                            ? "text-slate-200"
+                            : "text-slate-800"
                             }`}
                         >
                           {log.message}

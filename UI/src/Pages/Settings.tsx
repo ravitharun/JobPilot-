@@ -19,11 +19,14 @@ import {
 import MainSidebar from "../Components/MainSidebar";
 import Headers from "../Components/Headers";
 import MobileNavigation from "../Components/MobileNav";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { UpdateNaviagtion } from "../Store/Navigation";
 
 function Settings() {
     const Theme = useSelector((state: any) => state.counter.value);
-
+    useSelector((state: any) => state.navigationPages.value);
+    const updatenavigationPages = useDispatch();
     const card = `rounded-2xl border shadow-sm ${Theme
         ? "border-slate-700 bg-slate-900"
         : "border-slate-200 bg-white"
@@ -73,19 +76,21 @@ function Settings() {
             </span>
         </div>
     );
+    
+    const AccountItem = ({ icon: Icon, title, description, route }: any) => (
 
-    const AccountItem = ({ icon: Icon, title, description }: any) => (
-        <div
-            className={`flex items-center gap-3 rounded-xl p-3 ${Theme ? "hover:bg-slate-800" : "hover:bg-slate-50"
-                }`}
-        >
-            <Icon size={19} className={muted} />
-            <div className="min-w-0 flex-1">
-                <p className={`text-sm font-medium ${heading}`}>{title}</p>
-                <p className={`mt-1 text-xs ${muted}`}>{description}</p>
-            </div>
-            <FiChevronRight className={muted} />
-        </div>
+        <Link to={route} onClick={() => updatenavigationPages(UpdateNaviagtion("Profile"))}>
+            <div
+                className={`flex items-center gap-3 rounded-xl p-3 ${Theme ? "hover:bg-slate-800" : "hover:bg-slate-50"
+                    }`}
+            >
+                <Icon size={19} className={muted} />
+                <div className="min-w-0 flex-1">
+                    <p className={`text-sm font-medium ${heading}`}>{title}</p>
+                    <p className={`mt-1 text-xs ${muted}`}>{description}</p>
+                </div>
+                <FiChevronRight className={muted} />
+            </div></Link>
     );
 
     return (
@@ -323,6 +328,7 @@ function Settings() {
                                         icon={FiUser}
                                         title="Personal Information"
                                         description="Manage your profile details"
+                                        route="/Profile"
                                     />
 
                                     <AccountItem

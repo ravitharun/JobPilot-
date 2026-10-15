@@ -5,14 +5,17 @@ package com.example.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.Dto.SignupDto;
 // import com.example.Dto.UserProfileDto;
 import com.example.Model.UserModel;
+import com.example.Model.ApplicationSettigs;
 import com.example.Model.UserProfileModel;
 import com.example.Dto.LoginDto;
 import com.example.Repository.UserProfileRepo;
+import com.example.Repository.ApplicationSettingsRepo;
 import com.example.Repository.UserRepository;
 import com.example.Response.ApiErrorResponse;
 import com.example.Response.ApiSucessResponse;
@@ -26,6 +29,12 @@ public class UserServices {
 	@Autowired
 	public UserProfileRepo userProfileRepo;
 
+	@Autowired
+	PasswordEncoder PasswordEncoder;
+
+	@Autowired
+	ApplicationSettingsRepo applicationSettingsRepo;
+
 	// create a new account logic
 	@Transactional
 	public ResponseEntity<?> Signup(SignupDto data) {
@@ -35,7 +44,7 @@ public class UserServices {
 		u.setUserEmail(data.getUseremail());
 
 		u.setUsername(data.getUsername());
-		u.setUserPasswoard(data.getApplication_password());
+		u.setUserPasswoard(PasswordEncoder.encode(data.getApplication_password()));
 		ApiSucessResponse api_sucess = new ApiSucessResponse();
 		ApiErrorResponse api_err = new ApiErrorResponse();
 		// check email is empty
@@ -67,6 +76,13 @@ public class UserServices {
 		// Save the profile
 		UserProfileModel user_profile_response = userProfileRepo.save(user_P);
 		System.err.println(user_profile_response + "user_profile_response");
+		// applicationSettings
+		ApplicationSettigs appset = new ApplicationSettigs();
+		
+		appset.setUserId(u.getUserApplicationId());
+
+		applicationSettingsRepo.save(appset);
+
 		api_sucess.setData(user);
 		api_sucess.setStatusCode(HttpStatus.OK);
 		api_sucess.setMessage("created anew acount");

@@ -8,8 +8,8 @@ function Loader({ title, subtitle }: LoaderProps) {
     return (
         <div
             className={`flex min-h-screen items-center justify-center ${Theme
-                    ? "border-slate-700 bg-slate-900/95"
-                    : "border-slate-200 bg-white/95"
+                ? "border-slate-700 bg-slate-900/95"
+                : "border-slate-200 bg-white/95"
                 }`}
         >
             <div className="flex flex-col items-center gap-3 text-center">
