@@ -1,5 +1,7 @@
 package com.example.Response;
 
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 
 import com.example.Model.UserModel;
@@ -34,16 +36,16 @@ public class ApiSucessResponse {
 		this.statusCode = statusCode;
 	}
 
-	public UserModel getData() {
+	public Object getData() {
 		return data;
 	}
 
-	public void setData(UserModel data) {
+	public void setData(Object data) {
 		this.data = data;
 	}
 
 	public HttpStatus statusCode;
-	public UserModel data;
+	public Object data;
 	private LoginDto loginDto;
 
 	public LoginDto getLoginDto() {

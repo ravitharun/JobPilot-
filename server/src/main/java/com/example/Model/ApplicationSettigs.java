@@ -11,9 +11,10 @@ import jakarta.persistence.Table;
 public class ApplicationSettigs {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+
     private long ApplicationSettingId;
 
-    private long UserId;
+    private long userId;
 
     private boolean Enableautomation = true;
 
@@ -38,11 +39,11 @@ public class ApplicationSettigs {
     }
 
     public long getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(long userId) {
-        UserId = userId;
+        userId = userId;
     }
 
     public boolean isEnableautomation() {
