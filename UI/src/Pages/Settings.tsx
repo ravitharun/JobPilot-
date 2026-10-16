@@ -39,7 +39,7 @@ function Settings() {
     const [Enableautomation, setEnableautomation] = useState<boolean>();
     const [Interviewalerts, setInterviewalerts] = useState<boolean>();
     const [Reviewbeforeapplying, setReviewbeforeapplying] = useState<boolean>();
-    const [ApplicationSettingId, setApplicationSettingId] = useState<any>();
+    const [___, setApplicationSettingId] = useState<any>();
     const card = `rounded-2xl border shadow-sm ${Theme
         ? "border-slate-700 bg-slate-900"
         : "border-slate-200 bg-white"
