@@ -19,11 +19,27 @@ import {
 import MainSidebar from "../Components/MainSidebar";
 import Headers from "../Components/Headers";
 import MobileNavigation from "../Components/MobileNav";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { UpdateNaviagtion } from "../Store/Navigation";
+import { useEffect, useState } from "react";
+import api from "../Components/ApiInsstance";
 
 function Settings() {
     const Theme = useSelector((state: any) => state.counter.value);
+    useSelector((state: any) => state.navigationPages.value);
+    const updatenavigationPages = useDispatch();
 
+
+
+    const [Applicationupdates, setApplicationupdates] = useState<boolean>();
+    const [Automaticapplications, setAutomaticapplications] = useState<boolean>();
+    const [Automationreports, setAutomationreports] = useState<boolean>();
+    const [EmailNotification, setEmailNotification] = useState<boolean>();
+    const [Enableautomation, setEnableautomation] = useState<boolean>();
+    const [Interviewalerts, setInterviewalerts] = useState<boolean>();
+    const [Reviewbeforeapplying, setReviewbeforeapplying] = useState<boolean>();
+    const [___, setApplicationSettingId] = useState<any>();
     const card = `rounded-2xl border shadow-sm ${Theme
         ? "border-slate-700 bg-slate-900"
         : "border-slate-200 bg-white"
@@ -39,6 +55,90 @@ function Settings() {
 
     const labelClass = `mb-2 block text-sm font-medium ${muted}`;
 
+    let a: any = localStorage.getItem("User")
+
+
+
+
+    useEffect(() => {
+
+
+
+        const GetApplicationSettings = async () => {
+
+
+            try {
+                const response = await api.get("/AppSettings/get", {
+                    params: {
+                        "userid": String(6)
+                    }
+                })
+
+                console.log(response?.data?.data, "response")
+
+                setApplicationSettingId(response?.data?.data?.ApplicationSettingId)
+                setApplicationupdates(response?.data?.data?.Applicationupdates)
+                setAutomaticapplications(response?.data?.data?.Automaticapplications)
+                setAutomationreports(response?.data?.data?.Automationreports)
+                setEmailNotification(response?.data?.data?.EmailNotification)
+                setEnableautomation(response?.data?.data?.Enableautomation)
+                setInterviewalerts(response?.data?.data?.Interviewalerts)
+                setReviewbeforeapplying(response?.data?.data?.Reviewbeforeapplying)
+            } catch (error: any) {
+                console.log(error?.response.data.Errorcode?.split(" ")[0], "ERRcode")
+                console.log(error?.response.data.ErrorMessage, "ERR message")
+            }
+        }
+
+        GetApplicationSettings()
+    }, [a])
+
+
+
+    const handeltoggle = (ref: any) => {
+        console.log(ref)
+        switch (ref) {
+            case 4:
+                setEmailNotification(prev => !prev)
+                break;
+
+            case 1:
+                // console.log("Enable automation")
+                setEnableautomation(prev => !prev)
+                break;
+
+            case 2:
+                // console.log("Enable automation")
+                setAutomaticapplications(prev => !prev)
+                break;
+
+            case 3:
+                // console.log("Enable automation")
+                setReviewbeforeapplying(prev => !prev)
+                break;
+
+            case 5:
+                // console.log("Enable automation")
+                setApplicationupdates(prev => !prev)
+                break;
+            case 6:
+                // console.log("Enable automation")
+                setInterviewalerts(prev => !prev)
+                break;
+            case 7:
+                // console.log("Enable automation")
+                setAutomationreports(prev => !prev)
+                break;
+
+            default:
+
+
+                setInterviewalerts(prev => !prev)
+                break;
+        }
+    }
+    console.log(Enableautomation, 'en')
+    console.log(Interviewalerts, "Interviewalerts")
     const SectionHeader = ({ icon: Icon, title, description }: any) => (
         <div className="flex items-start gap-3 border-b border-slate-200/20 px-5 py-5 sm:px-6">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-500">
@@ -51,8 +151,10 @@ function Settings() {
         </div>
     );
 
-    const Toggle = ({ label, description, enabled = false }: any) => (
-        <div className="flex items-center justify-between gap-4 py-4">
+    const Toggle = ({ label, description, enabled, ref }: any) => (
+
+        <div className="flex items-center justify-between gap-4 py-4"
+            onClick={() => handeltoggle(ref)}>
             <div>
                 <p className={`text-sm font-semibold ${heading}`}>{label}</p>
                 <p className={`mt-1 text-xs leading-5 ${muted}`}>{description}</p>
@@ -74,18 +176,20 @@ function Settings() {
         </div>
     );
 
-    const AccountItem = ({ icon: Icon, title, description }: any) => (
-        <div
-            className={`flex items-center gap-3 rounded-xl p-3 ${Theme ? "hover:bg-slate-800" : "hover:bg-slate-50"
-                }`}
-        >
-            <Icon size={19} className={muted} />
-            <div className="min-w-0 flex-1">
-                <p className={`text-sm font-medium ${heading}`}>{title}</p>
-                <p className={`mt-1 text-xs ${muted}`}>{description}</p>
-            </div>
-            <FiChevronRight className={muted} />
-        </div>
+    const AccountItem = ({ icon: Icon, title, description, route }: any) => (
+
+        <Link to={route} onClick={() => updatenavigationPages(UpdateNaviagtion("Profile"))}>
+            <div
+                className={`flex items-center gap-3 rounded-xl p-3 ${Theme ? "hover:bg-slate-800" : "hover:bg-slate-50"
+                    }`}
+            >
+                <Icon size={19} className={muted} />
+                <div className="min-w-0 flex-1">
+                    <p className={`text-sm font-medium ${heading}`}>{title}</p>
+                    <p className={`mt-1 text-xs ${muted}`}>{description}</p>
+                </div>
+                <FiChevronRight className={muted} />
+            </div></Link>
     );
 
     return (
@@ -207,15 +311,21 @@ function Settings() {
                                 />
 
                                 <div className="px-5 sm:px-6">
+
                                     <Toggle
                                         label="Enable automation"
                                         description="Allow the configured job-search workflow to run."
+                                        enabled={Enableautomation}
+                                        ref={1}
+
                                     />
 
                                     <div className="border-t border-slate-200/20">
                                         <Toggle
                                             label="Automatic applications"
                                             description="Enable applications without individual review when permitted."
+                                            enabled={Automaticapplications}
+                                            ref={2}
                                         />
                                     </div>
 
@@ -223,7 +333,8 @@ function Settings() {
                                         <Toggle
                                             label="Review before applying"
                                             description="Review job details before submitting an application."
-                                            enabled
+                                            enabled={Reviewbeforeapplying}
+                                            ref={3}
                                         />
                                     </div>
 
@@ -248,14 +359,18 @@ function Settings() {
                                     <Toggle
                                         label="Email notifications"
                                         description="Receive important account updates by email."
-                                        enabled
+                                        enabled={EmailNotification}
+                                        ref={4}
                                     />
 
                                     <div className="border-t border-slate-200/20">
                                         <Toggle
                                             label="Application updates"
                                             description="Stay informed about application status changes."
-                                            enabled
+                                            enabled={Applicationupdates}
+                                            ref={5}
+
+
                                         />
                                     </div>
 
@@ -263,7 +378,10 @@ function Settings() {
                                         <Toggle
                                             label="Interview alerts"
                                             description="Receive interview-related reminders."
-                                            enabled
+                                            enabled={Interviewalerts
+
+                                            }
+                                            ref={6}
                                         />
                                     </div>
 
@@ -271,7 +389,10 @@ function Settings() {
                                         <Toggle
                                             label="Automation reports"
                                             description="View summaries of completed automation runs."
+                                            ref={7}
+                                            enabled={Automationreports}
                                         />
+
                                     </div>
                                 </div>
                             </section>
@@ -323,6 +444,7 @@ function Settings() {
                                         icon={FiUser}
                                         title="Personal Information"
                                         description="Manage your profile details"
+                                        route="/Profile"
                                     />
 
                                     <AccountItem
