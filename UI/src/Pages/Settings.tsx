@@ -24,13 +24,15 @@ import { Link } from "react-router-dom";
 import { UpdateNaviagtion } from "../Store/Navigation";
 import { useEffect, useState } from "react";
 import api from "../Components/ApiInsstance";
+import { toast, Toaster } from "sonner";
+import Loader from "../Components/Loader";
 
 function Settings() {
     const Theme = useSelector((state: any) => state.counter.value);
     useSelector((state: any) => state.navigationPages.value);
     const updatenavigationPages = useDispatch();
 
-
+    const [isloading, setisloading] = useState(false)
 
     const [Applicationupdates, setApplicationupdates] = useState<boolean>();
     const [Automaticapplications, setAutomaticapplications] = useState<boolean>();
@@ -68,14 +70,14 @@ function Settings() {
 
 
             try {
+                setisloading(true)
                 const response = await api.get("/AppSettings/get", {
                     params: {
                         "userid": String(6)
                     }
                 })
-
-                console.log(response?.data?.data, "response")
-
+                console.log("loadin true")
+                setisloading(true)
                 setApplicationSettingId(response?.data?.data?.ApplicationSettingId)
                 setApplicationupdates(response?.data?.data?.Applicationupdates)
                 setAutomaticapplications(response?.data?.data?.Automaticapplications)
@@ -87,6 +89,11 @@ function Settings() {
             } catch (error: any) {
                 console.log(error?.response.data.Errorcode?.split(" ")[0], "ERRcode")
                 console.log(error?.response.data.ErrorMessage, "ERR message")
+                setisloading(false)
+            }
+            finally {
+                setisloading(false)
+                console.log("loadin fakse")
             }
         }
 
@@ -301,6 +308,7 @@ function Settings() {
                                     </div>
                                 </div>
                             </section>
+
 
                             {/* AUTOMATION */}
                             <section className={card}>
@@ -543,11 +551,43 @@ function Settings() {
                         <button
                             type="button"
                             className="flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-700"
+                            onClick={() => toast.success("Adding the Save Settings Soon.")}
                         >
                             <FiSave size={17} />
                             Save Settings
                         </button>
                     </div>
+                    <Loader
+                        title="Loading Settings"
+                        subtitle="Please wait while we retrieve your preferences..."
+                        isloading={isloading}
+                    />
+
+                    <Toaster
+
+                        theme="system"
+                        richColors
+                        closeButton
+                        expand={false}
+                        duration={3000}
+                        visibleToasts={4}
+                        gap={12}
+                        offset="24px"
+                        mobileOffset="16px"
+                        dir="ltr"
+                        swipeDirections={["right", "left"]}
+                        toastOptions={{
+                            className: "jobpilot-toast",
+                            duration: 3000,
+                        }}
+                        icons={{
+                            success: "✅",
+                            error: "❌",
+                            warning: "⚠️",
+                            info: "ℹ️",
+                        }}
+
+                    />
 
                 </div>
             </main>

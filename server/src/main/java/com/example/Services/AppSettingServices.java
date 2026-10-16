@@ -17,7 +17,7 @@ public class AppSettingServices {
 
     ApplicationSettingsRepo applicationSettingsRepo;
 
-    // GET: the App settings Method
+    // GET: the App settings and JobSearchPreferences  data
     public ResponseEntity<?> GetSetting_app(String UserId) {
         System.err.println(UserId);
         ApiErrorResponse err = new ApiErrorResponse();
