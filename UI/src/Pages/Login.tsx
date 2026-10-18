@@ -22,7 +22,7 @@ function Login() {
     const handleSubmit = async (e: any) => {
         e.preventDefault();
 
-        console.log({ email, password, rememberMe });
+
 
 
 

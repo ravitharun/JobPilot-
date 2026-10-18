@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 
-export function Toast({ messages, code, type }: any) {
-    console.log({ messages, code, type })
+export function Toast({ messages = "error", code = 500, type = "error" }: any) {
+    console.log({ messages, code, type } + "chec")
     // Success: 200–299
     if (code >= 200 && code < 300) {
         return toast.success(messages, {

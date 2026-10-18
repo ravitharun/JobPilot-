@@ -1,5 +1,7 @@
 package com.example.Model;
 
+import com.example.Dto.JobSearchPerefenceDto;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
