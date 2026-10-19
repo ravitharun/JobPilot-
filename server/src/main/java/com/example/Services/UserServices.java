@@ -78,10 +78,10 @@ public class UserServices {
 		System.err.println(user_profile_response + "user_profile_response");
 		// applicationSettings
 		ApplicationSettigs appset = new ApplicationSettigs();
-		
+
 		appset.setUserId(u.getUserApplicationId());
 
-		applicationSettingsRepo.save(appset);
+		// applicationSettingsRepo.JobSearchPreferencesRepo(appset);
 
 		api_sucess.setData(user);
 		api_sucess.setStatusCode(HttpStatus.OK);

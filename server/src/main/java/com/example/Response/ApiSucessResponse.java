@@ -1,10 +1,8 @@
 package com.example.Response;
 
-import java.util.Optional;
-
 import org.springframework.http.HttpStatus;
 
-import com.example.Model.UserModel;
+
 import com.example.Dto.LoginDto;
 
 public class ApiSucessResponse {

@@ -24,8 +24,9 @@ import { Link } from "react-router-dom";
 import { UpdateNaviagtion } from "../Store/Navigation";
 import { useEffect, useState } from "react";
 import api from "../Components/ApiInsstance";
-import { toast, Toaster } from "sonner";
+import { Toaster } from "sonner";
 import Loader from "../Components/Loader";
+import { Toast } from "../Components/Toast";
 
 function Settings() {
     const Theme = useSelector((state: any) => state.counter.value);
@@ -42,6 +43,15 @@ function Settings() {
     const [Interviewalerts, setInterviewalerts] = useState<boolean>();
     const [Reviewbeforeapplying, setReviewbeforeapplying] = useState<boolean>();
     const [___, setApplicationSettingId] = useState<any>();
+    const [JobPreferences, setJobPreferences] = useState<any>([])
+    const [JobRole, setJobRole] = useState(JobPreferences?.PreferredJobRole)
+    const [PreferredLocation, setPreferredLocation] = useState(JobPreferences?.PreferredLocation)
+    const [YourExp, setYourExp] = useState("Fresher")
+    const [WorkMode, setWrokMode] = useState("Hybrid / On-site");
+    const [Salary, setSalary] = useState("3-LPA");
+    const [applicationlimit, setapplicationlimit] = useState("");
+    const [data, setdata] = useState<any>([])
+
     const card = `rounded-2xl border shadow-sm ${Theme
         ? "border-slate-700 bg-slate-900"
         : "border-slate-200 bg-white"
@@ -57,13 +67,12 @@ function Settings() {
 
     const labelClass = `mb-2 block text-sm font-medium ${muted}`;
 
-    let a: any = localStorage.getItem("User")
+    let a: any | string | null = JSON.parse(localStorage.getItem("User") ?? "")
 
-
+    console.log(a.ApplicationuserId)
 
 
     useEffect(() => {
-
 
 
         const GetApplicationSettings = async () => {
@@ -73,32 +82,37 @@ function Settings() {
                 setisloading(true)
                 const response = await api.get("/AppSettings/get", {
                     params: {
-                        "userid": String(6)
+                        "userid": String(a.ApplicationuserId)
                     }
                 })
-                console.log("loadin true")
+                setdata(response?.data.Jobperfecncedata)
                 setisloading(true)
-                setApplicationSettingId(response?.data?.data?.ApplicationSettingId)
-                setApplicationupdates(response?.data?.data?.Applicationupdates)
-                setAutomaticapplications(response?.data?.data?.Automaticapplications)
-                setAutomationreports(response?.data?.data?.Automationreports)
-                setEmailNotification(response?.data?.data?.EmailNotification)
-                setEnableautomation(response?.data?.data?.Enableautomation)
-                setInterviewalerts(response?.data?.data?.Interviewalerts)
-                setReviewbeforeapplying(response?.data?.data?.Reviewbeforeapplying)
+                setApplicationSettingId(response?.data?.Settingsdata?.ApplicationSettingId)
+                setApplicationupdates(response?.data?.Settingsdata?.Applicationupdates)
+                setAutomaticapplications(response?.data?.Settingsdata?.Automaticapplications)
+                setAutomationreports(response?.data?.Settingsdata?.Automationreports)
+                setEmailNotification(response?.data?.Settingsdata?.EmailNotification)
+                setEnableautomation(response?.data?.Settingsdata?.Enableautomation)
+                setInterviewalerts(response?.data?.Settingsdata?.Interviewalerts)
+                setReviewbeforeapplying(response?.data?.Settingsdata?.Reviewbeforeapplying)
+                setJobPreferences(response?.data?.Jobperfecncedata)
             } catch (error: any) {
-                console.log(error?.response.data.Errorcode?.split(" ")[0], "ERRcode")
-                console.log(error?.response.data.ErrorMessage, "ERR message")
-                setisloading(false)
+                Toast({
+                    messages: error?.response.data.ErrorMessage,
+                    code: error.status,
+                    type: "Error",
+                });
+
+                return setisloading(false)
             }
             finally {
                 setisloading(false)
-                console.log("loadin fakse")
             }
         }
 
         GetApplicationSettings()
-    }, [a])
+    }, [a.ApplicationuserId])
+
 
 
 
@@ -144,13 +158,61 @@ function Settings() {
                 break;
         }
     }
-    console.log(Enableautomation, 'en')
-    console.log(Interviewalerts, "Interviewalerts")
+
+    // HandelSavePerefence
+
+    const HandelSavePerefence = async () => {
+        let a: String | null | any = JSON.parse(localStorage.getItem("User") || "")
+
+        const appsetting = {
+            Settingsdata: {
+                ApplicationSettingId: a.ApplicationuserId,
+                Applicationupdates,
+                Automaticapplications,
+                Automationreports,
+                EmailNotification,
+                Enableautomation,
+                Interviewalerts,
+                Reviewbeforeapplying,
+                userId: a.ApplicationuserId
+            },
+            Jobperfecncedata: {
+                DailyApplicationLimit: applicationlimit,
+                ExpectedSalary: Salary,
+                ExperienceLevel: YourExp,
+                JobSearchPreferencesid: data.JobSearchPreferencesid,
+                PreferredJobRole: JobRole,
+                PreferredLocation: PreferredLocation,
+                WorkMode: WorkMode,
+                userApplicationId: a.ApplicationuserId
+            }
+        };
+        console.log(appsetting)
+        try {
+            const response = await api.put(
+                "/AppSettings/Update/Settings",
+                appsetting
+            );
+
+            console.log("Response:", response.data);
+            return Toast(
+                { messages: response?.data, code: response?.status, type: "sucess" }
+            )
+        } catch (error: any) {
+            alert(error?.response?.data?.message);
+            return Toast(
+                { messages: error?.response?.data, code: error ?.response?.status, type: "Error" }
+            )
+        }
+    }
+    const WORK_MODE = ["Hybrid / On-site", "On-site", "Hybrid", "Remote", "Any"]
+
     const SectionHeader = ({ icon: Icon, title, description }: any) => (
         <div className="flex items-start gap-3 border-b border-slate-200/20 px-5 py-5 sm:px-6">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-500">
                 <Icon size={20} />
             </div>
+
             <div>
                 <h3 className={`font-bold ${heading}`}>{title}</h3>
                 <p className={`mt-1 text-sm ${muted}`}>{description}</p>
@@ -245,9 +307,11 @@ function Settings() {
                                     <div>
                                         <label className={labelClass}>Preferred Job Role</label>
                                         <input
-                                            readOnly
-                                            value="Java Developer"
+
+                                            // value={JobRole || JobPreferences?.PreferredJobRole}
+                                            value={JobRole ?? JobPreferences?.PreferredJobRole ?? ""}
                                             className={inputClass}
+                                            onChange={(e) => setJobRole(e.target.value)}
                                         />
                                     </div>
 
@@ -256,49 +320,73 @@ function Settings() {
                                         <div className="relative">
                                             <FiMapPin className={`absolute left-3 top-1/2 -translate-y-1/2 ${muted}`} />
                                             <input
-                                                readOnly
-                                                value="Bengaluru, Hyderabad"
+
+                                                value={PreferredLocation ?? JobPreferences?.PreferredLocation ?? ""}
                                                 className={`${inputClass} pl-9`}
+                                                onChange={(e) => setPreferredLocation(e.target.value)}
                                             />
                                         </div>
                                     </div>
 
                                     <div>
-                                        <label className={labelClass}>Experience Level</label>
-                                        <select className={inputClass} defaultValue="Fresher">
-                                            <option>Fresher</option>
-                                            <option>0–1 years</option>
-                                            <option>1–3 years</option>
-                                            <option>3–5 years</option>
+                                        <label className={labelClass}>Experience Level </label>
+                                        <select className={inputClass} defaultValue="Fresher" onChange={(e) => setYourExp(e.target
+                                            .value
+                                        )}>
+                                            {
+                                                ["Fresher", "0-1", "1-3", "3-5"].map((yer, idx) => (
+                                                    <option value={yer} key={idx}>{yer} {yer == 'Fresher' ? "" : "Year"}</option>
+                                                ))
+                                            }
+
                                         </select>
                                     </div>
 
                                     <div>
-                                        <label className={labelClass}>Work Mode</label>
-                                        <select className={inputClass} defaultValue="Hybrid / On-site">
-                                            <option>Hybrid / On-site</option>
-                                            <option>On-site</option>
-                                            <option>Hybrid</option>
-                                            <option>Remote</option>
-                                            <option>Any</option>
+                                        <label className={labelClass}>Work Mode -</label>
+                                        <select className={inputClass} defaultValue="Hybrid / On-site" onChange={(e) => setWrokMode(e.target.value)}>
+                                            {WORK_MODE.map((mode, idx) => (
+
+                                                <option value={mode} key={idx} >{mode}</option>
+                                            ))}
+
                                         </select>
                                     </div>
 
                                     <div>
                                         <label className={labelClass}>Expected Salary</label>
-                                        <select className={inputClass} defaultValue="4 LPA">
-                                            <option>Any salary</option>
-                                            <option>3 LPA</option>
-                                            <option>4 LPA</option>
-                                            <option>5 LPA</option>
-                                            <option>6 LPA</option>
-                                            <option>8 LPA</option>
+                                        <select className={inputClass} defaultValue="3 LPA" onChange={(e) => setSalary(e.target.value)}>
+
+                                            {[
+                                                "3 LPA",
+                                                "4 LPA",
+                                                "5 LPA",
+                                                "6 LPA",
+                                                "7 LPA",
+                                                "8 LPA",
+                                                "9 LPA",
+                                                "10 LPA",
+                                                "12 LPA",
+                                                "15 LPA",
+                                                "18 LPA",
+                                                "20 LPA",
+                                                "25 LPA",
+                                                "30 LPA",
+                                                "40 LPA",
+                                                "50 LPA",
+                                                "50+ LPA",
+                                            ].map((salary, idx) => (
+                                                <option value={salary} key={idx}>
+                                                    {salary}
+                                                </option>
+                                            ))}
+
                                         </select>
                                     </div>
 
                                     <div>
                                         <label className={labelClass}>Daily Application Limit</label>
-                                        <select className={inputClass} defaultValue="10">
+                                        <select className={inputClass} defaultValue="10" onClick={(e: any) => setapplicationlimit(e.target.value)}>
                                             <option value="5">5 applications</option>
                                             <option value="10">10 applications</option>
                                             <option value="15">15 applications</option>
@@ -485,7 +573,7 @@ function Settings() {
                                         <div>
                                             <p className={`text-xs ${muted}`}>Target Role</p>
                                             <p className={`mt-1 text-sm font-semibold ${heading}`}>
-                                                Java Developer
+                                                {JobPreferences?.PreferredJobRole || ""}
                                             </p>
                                         </div>
                                     </div>
@@ -493,9 +581,11 @@ function Settings() {
                                     <div className="flex items-center gap-3">
                                         <FiMapPin className="text-indigo-500" size={19} />
                                         <div>
-                                            <p className={`text-xs ${muted}`}>Locations</p>
+                                            <p className={`text-xs ${muted}`}>Locations - {JobPreferences?.PreferredLocation?.split(",").length || 0}</p>
                                             <p className={`mt-1 text-sm font-semibold ${heading}`}>
-                                                Bengaluru, Hyderabad
+                                                {JobPreferences?.PreferredLocation || ""}
+                                                {/* {JobPreferences?.PreferredLocation}
+                                                Bengaluru, Hyderabad */}
                                             </p>
                                         </div>
                                     </div>
@@ -505,7 +595,8 @@ function Settings() {
                                         <div>
                                             <p className={`text-xs ${muted}`}>Daily Limit</p>
                                             <p className={`mt-1 text-sm font-semibold ${heading}`}>
-                                                10 applications
+                                                {JobPreferences?.DailyApplicationLimit || 0}
+                                                applications
                                             </p>
                                         </div>
                                     </div>
@@ -551,7 +642,7 @@ function Settings() {
                         <button
                             type="button"
                             className="flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-700"
-                            onClick={() => toast.success("Adding the Save Settings Soon.")}
+                            onClick={() => HandelSavePerefence()}
                         >
                             <FiSave size={17} />
                             Save Settings
