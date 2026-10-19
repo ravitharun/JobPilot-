@@ -27,5 +27,5 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build Spring Boot application
-        working-directory: backend
+        working-directory: server
         run: chmod +x gradlew && ./gradlew clean build
