@@ -14,6 +14,25 @@ jobs:
     name: Build Spring Boot Server
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: testpassword
+          MYSQL_DATABASE: JobAutomation
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -ptestpassword"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    env:
+      DB_URL: jdbc:mysql://127.0.0.1:3306/JobAutomation
+      DB_USERNAME: root
+      DB_PASSWORD: testpassword
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
