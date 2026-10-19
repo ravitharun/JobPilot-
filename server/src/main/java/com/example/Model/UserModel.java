@@ -23,8 +23,7 @@ public class UserModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userApplicationId;
 	@NotNull
-	@Column(name = "userEmail", unique = true)
-
+	@Column(name = "user_email", unique = true)
 	private String userEmail;
 	private String username;
 	private String userPasswoard;

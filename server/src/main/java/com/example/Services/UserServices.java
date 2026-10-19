@@ -19,7 +19,7 @@ import com.example.Repository.ApplicationSettingsRepo;
 import com.example.Repository.UserRepository;
 import com.example.Response.ApiErrorResponse;
 import com.example.Response.ApiSucessResponse;
-
+import javax.sql.DataSource;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -49,7 +49,6 @@ public class UserServices {
 		ApiErrorResponse api_err = new ApiErrorResponse();
 		// check email is empty
 		if (data.getUseremail().isEmpty()) {
-			System.err.println("hey");
 			api_err.setErrorcode(HttpStatus.NOT_FOUND);
 			api_err.setErrorMessage("email is required");
 
@@ -75,7 +74,6 @@ public class UserServices {
 
 		// Save the profile
 		UserProfileModel user_profile_response = userProfileRepo.save(user_P);
-		System.err.println(user_profile_response + "user_profile_response");
 		// applicationSettings
 		ApplicationSettigs appset = new ApplicationSettigs();
 
@@ -92,16 +90,20 @@ public class UserServices {
 
 	// Login into the account
 	public ResponseEntity<?> Signin(String userEmail, String Application_password) {
+		System.err.println(Application_password);
+		System.err.println(userEmail);
+	
 		ApiSucessResponse api_sucess = new ApiSucessResponse();
 		ApiErrorResponse api_Err = new ApiErrorResponse();
 		LoginDto login = new LoginDto();
 		UserModel u = userRepo.findByUserEmail(userEmail);
 		api_Err.setErrorMessage("No user Found based on the email");
 		api_Err.setErrorcode(HttpStatus.UNAUTHORIZED);
-
 		if (u == null) {
+			System.err.println("UUU" + u);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(api_Err);
 		}
+		
 		if (u.getUserEmail().equals(userEmail) && u.getUserPasswoard().equals(Application_password)) {
 
 			login.setUseremail(u.getUserEmail());
