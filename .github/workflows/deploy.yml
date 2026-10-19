@@ -10,8 +10,32 @@ on:
       - main
 
 jobs:
+  ui:
+    name: Build UI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: ui/package-lock.json
+
+      - name: Install UI dependencies
+        working-directory: ui
+        run: npm ci
+
+      - name: Build UI
+        working-directory: ui
+        run: npm run build
+
   Server:
     name: Build Spring Boot Server
+    needs: Ui
     runs-on: ubuntu-latest
 
     services:
