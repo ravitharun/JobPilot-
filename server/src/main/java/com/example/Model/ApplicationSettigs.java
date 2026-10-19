@@ -14,7 +14,7 @@ public class ApplicationSettigs {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 
-    private long ApplicationSettingId;
+    private long applicationSettingId;
 
     private long userId;
 
@@ -33,11 +33,11 @@ public class ApplicationSettigs {
     private boolean Automationreports = true;
 
     public long getApplicationSettingId() {
-        return ApplicationSettingId;
+        return applicationSettingId;
     }
 
     public void setApplicationSettingId(long applicationSettingId) {
-        ApplicationSettingId = applicationSettingId;
+        applicationSettingId = applicationSettingId;
     }
 
     public long getUserId() {

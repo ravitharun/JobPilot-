@@ -4,7 +4,7 @@ const Theme = createSlice({
     name: "Theme",
 
     initialState: {
-        value: false
+        value: true
     },
 
     reducers: {

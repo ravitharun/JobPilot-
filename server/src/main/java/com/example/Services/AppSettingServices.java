@@ -11,9 +11,12 @@ import org.springframework.stereotype.Service;
 import com.example.Repository.ApplicationSettingsRepo;
 import com.example.Repository.JobSearchPreferencesRepo;
 import com.example.Response.ApiErrorResponse;
+
+import jakarta.transaction.Transactional;
+
 import com.example.Dto.AppSettingDTO;
 import com.example.Dto.JobPreferencesDTO;
-import com.example.Dto.JobSearchPerefenceDto;
+
 import com.example.Dto.SettingsDataDTO;
 import com.example.Model.ApplicationSettigs;
 import com.example.Model.JobSearchPreferences;
@@ -27,6 +30,8 @@ public class AppSettingServices {
     @Autowired
 
     JobSearchPreferencesRepo jobSearchPreferencesRepo;
+    @Autowired
+    ApplicationSettingsRepo appSettingRepo;
 
     // GET: the App settings and JobSearchPreferences data
     public ResponseEntity<?> GetSetting_app(String UserId) {
@@ -86,17 +91,97 @@ public class AppSettingServices {
     }
 
     // put:/Update/Settings userapp settngsincluded(
-    // UserProfilePrefence,Appsettings)
 
     // update the settings
-    public Object UpdateSettings(
-            JobPreferencesDTO Jobperfecncedata,
-            SettingsDataDTO Settingsdata) {
-        System.err.println(Settingsdata.getApplicationSettingId());
-        JobPreferencesDTO jb = new JobPreferencesDTO();
-        SettingsDataDTO settings = new SettingsDataDTO();
+    @Transactional
+    public ResponseEntity<?> UpdateSettings(AppSettingDTO appsetting) {
 
-        return Settingsdata;
+        SettingsDataDTO setting = appsetting.getSettingsdata();
+        JobPreferencesDTO jobData = appsetting.getJobperfecncedata();
+
+        if (setting == null || jobData == null) {
+            return ResponseEntity.badRequest()
+                    .body("Settingsdata or Jobperfecncedata is missing");
+        }
+
+        try {
+            System.out.println("ApplicationSettingId: "
+                    + setting.getApplicationSettingId());
+
+            JobSearchPreferences job = jobSearchPreferencesRepo.findByUserApplicationId(
+                    jobData.getUserApplicationId());
+
+            ApplicationSettigs settings = appSettingRepo.findByUserId(
+                    setting.getApplicationSettingId());
+
+            // Check both records before updating
+            if (job == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Job preferences not found");
+            }
+
+            if (settings == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Application settings not found");
+            }
+
+            // Update job preferences
+            job.setDailyApplicationLimit(
+                    jobData.getDailyApplicationLimit());
+
+            job.setExpectedSalary(
+                    jobData.getExpectedSalary());
+
+            job.setExperienceLevel(
+                    jobData.getExperienceLevel());
+
+            job.setPreferredJobRole(
+                    jobData.getPreferredJobRole());
+
+            job.setPreferredLocation(
+                    jobData.getPreferredLocation());
+
+            job.setWorkMode(
+                    jobData.getWorkMode());
+
+            // Update application settings
+            settings.setApplicationupdates(
+                    setting.getApplicationupdates());
+
+            settings.setAutomaticapplications(
+                    setting.getAutomaticapplications());
+
+            settings.setAutomationreports(
+                    setting.getAutomationreports());
+
+            settings.setEmailNotification(
+                    setting.getEmailNotification());
+
+            settings.setEnableautomation(
+                    setting.getEnableautomation());
+
+            settings.setInterviewalerts(
+                    setting.getInterviewalerts());
+
+            settings.setReviewbeforeapplying(
+                    setting.getReviewbeforeapplying());
+
+            // Save both entities
+            System.out.println("Before saving job preferences");
+            jobSearchPreferencesRepo.saveAndFlush(job);
+            System.out.println("Job preferences saved successfully");
+
+            System.out.println("Before saving application settings");
+            appSettingRepo.saveAndFlush(settings);
+            System.out.println("Application settings saved successfully");
+
+            return ResponseEntity.ok("Settings updated successfully");
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
 
 }

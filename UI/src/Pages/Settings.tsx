@@ -24,7 +24,7 @@ import { Link } from "react-router-dom";
 import { UpdateNaviagtion } from "../Store/Navigation";
 import { useEffect, useState } from "react";
 import api from "../Components/ApiInsstance";
-import { toast, Toaster } from "sonner";
+import { Toaster } from "sonner";
 import Loader from "../Components/Loader";
 import { Toast } from "../Components/Toast";
 
@@ -49,7 +49,8 @@ function Settings() {
     const [YourExp, setYourExp] = useState("Fresher")
     const [WorkMode, setWrokMode] = useState("Hybrid / On-site");
     const [Salary, setSalary] = useState("3-LPA");
-    console.log(WorkMode + "WorkMode default ")
+    const [applicationlimit, setapplicationlimit] = useState("");
+    const [data, setdata] = useState<any>([])
 
     const card = `rounded-2xl border shadow-sm ${Theme
         ? "border-slate-700 bg-slate-900"
@@ -66,13 +67,12 @@ function Settings() {
 
     const labelClass = `mb-2 block text-sm font-medium ${muted}`;
 
-    let a: any = localStorage.getItem("User")
+    let a: any | string | null = JSON.parse(localStorage.getItem("User") ?? "")
 
-
+    console.log(a.ApplicationuserId)
 
 
     useEffect(() => {
-
 
 
         const GetApplicationSettings = async () => {
@@ -82,10 +82,10 @@ function Settings() {
                 setisloading(true)
                 const response = await api.get("/AppSettings/get", {
                     params: {
-                        "userid": String(6)
+                        "userid": String(a.ApplicationuserId)
                     }
                 })
-
+                setdata(response?.data.Jobperfecncedata)
                 setisloading(true)
                 setApplicationSettingId(response?.data?.Settingsdata?.ApplicationSettingId)
                 setApplicationupdates(response?.data?.Settingsdata?.Applicationupdates)
@@ -111,7 +111,7 @@ function Settings() {
         }
 
         GetApplicationSettings()
-    }, [a])
+    }, [a.ApplicationuserId])
 
 
 
@@ -162,40 +162,47 @@ function Settings() {
     // HandelSavePerefence
 
     const HandelSavePerefence = async () => {
-        let a: String | null | any = JSON.parse(localStorage.getItem("User"))
+        let a: String | null | any = JSON.parse(localStorage.getItem("User") || "")
 
         const appsetting = {
-            "Settingsdata": {
-                "ApplicationSettingId": a.ApplicationuserId,
-                "Applicationupdates": Applicationupdates,
-                "Automaticapplications": Automaticapplications,
-                "Automationreports": Automationreports,
-                "EmailNotification": EmailNotification,
-                "Enableautomation": Enableautomation,
-                "Interviewalerts": Interviewalerts,
-                "Reviewbeforeapplying": Reviewbeforeapplying,
-                "userId": a.ApplicationuserId
+            Settingsdata: {
+                ApplicationSettingId: a.ApplicationuserId,
+                Applicationupdates,
+                Automaticapplications,
+                Automationreports,
+                EmailNotification,
+                Enableautomation,
+                Interviewalerts,
+                Reviewbeforeapplying,
+                userId: a.ApplicationuserId
             },
-            "Jobperfecncedata": {
-                "DailyApplicationLimit": "2",
-                "ExpectedSalary": "100000",
-                "ExperienceLevel": "0",
-                "JobSearchPreferencesid": 1,
-                "PreferredJobRole": "java devdeloper",
-                "PreferredLocation": "banglore",
-                "WorkMode": "On-site",
-                "userApplicationId": 6
-            },
-        }
-
+            Jobperfecncedata: {
+                DailyApplicationLimit: applicationlimit,
+                ExpectedSalary: Salary,
+                ExperienceLevel: YourExp,
+                JobSearchPreferencesid: data.JobSearchPreferencesid,
+                PreferredJobRole: JobRole,
+                PreferredLocation: PreferredLocation,
+                WorkMode: WorkMode,
+                userApplicationId: a.ApplicationuserId
+            }
+        };
+        console.log(appsetting)
         try {
-            const response = await api.put("/AppSettings/Update/Settings", {
+            const response = await api.put(
+                "/AppSettings/Update/Settings",
+                appsetting
+            );
 
-                "Settingsdata": appsetting?.Settingsdata,
-                "Jobperfecncedata": appsetting?.Jobperfecncedata
-            })
+            console.log("Response:", response.data);
+            return Toast(
+                { messages: response?.data, code: response?.status, type: "sucess" }
+            )
         } catch (error: any) {
-
+            alert(error?.response?.data?.message);
+            return Toast(
+                { messages: error?.response?.data, code: error ?.response?.status, type: "Error" }
+            )
         }
     }
     const WORK_MODE = ["Hybrid / On-site", "On-site", "Hybrid", "Remote", "Any"]
@@ -301,7 +308,8 @@ function Settings() {
                                         <label className={labelClass}>Preferred Job Role</label>
                                         <input
 
-                                            value={JobRole || JobPreferences?.PreferredJobRole}
+                                            // value={JobRole || JobPreferences?.PreferredJobRole}
+                                            value={JobRole ?? JobPreferences?.PreferredJobRole ?? ""}
                                             className={inputClass}
                                             onChange={(e) => setJobRole(e.target.value)}
                                         />
@@ -312,7 +320,8 @@ function Settings() {
                                         <div className="relative">
                                             <FiMapPin className={`absolute left-3 top-1/2 -translate-y-1/2 ${muted}`} />
                                             <input
-                                                value={PreferredLocation || JobPreferences?.PreferredLocation}
+
+                                                value={PreferredLocation ?? JobPreferences?.PreferredLocation ?? ""}
                                                 className={`${inputClass} pl-9`}
                                                 onChange={(e) => setPreferredLocation(e.target.value)}
                                             />
@@ -377,7 +386,7 @@ function Settings() {
 
                                     <div>
                                         <label className={labelClass}>Daily Application Limit</label>
-                                        <select className={inputClass} defaultValue="10">
+                                        <select className={inputClass} defaultValue="10" onClick={(e: any) => setapplicationlimit(e.target.value)}>
                                             <option value="5">5 applications</option>
                                             <option value="10">10 applications</option>
                                             <option value="15">15 applications</option>
@@ -564,7 +573,7 @@ function Settings() {
                                         <div>
                                             <p className={`text-xs ${muted}`}>Target Role</p>
                                             <p className={`mt-1 text-sm font-semibold ${heading}`}>
-                                                Java Developer
+                                                {JobPreferences?.PreferredJobRole || ""}
                                             </p>
                                         </div>
                                     </div>
@@ -572,9 +581,11 @@ function Settings() {
                                     <div className="flex items-center gap-3">
                                         <FiMapPin className="text-indigo-500" size={19} />
                                         <div>
-                                            <p className={`text-xs ${muted}`}>Locations</p>
+                                            <p className={`text-xs ${muted}`}>Locations - {JobPreferences?.PreferredLocation?.split(",").length || 0}</p>
                                             <p className={`mt-1 text-sm font-semibold ${heading}`}>
-                                                Bengaluru, Hyderabad
+                                                {JobPreferences?.PreferredLocation || ""}
+                                                {/* {JobPreferences?.PreferredLocation}
+                                                Bengaluru, Hyderabad */}
                                             </p>
                                         </div>
                                     </div>
@@ -584,7 +595,8 @@ function Settings() {
                                         <div>
                                             <p className={`text-xs ${muted}`}>Daily Limit</p>
                                             <p className={`mt-1 text-sm font-semibold ${heading}`}>
-                                                10 applications
+                                                {JobPreferences?.DailyApplicationLimit || 0}
+                                                applications
                                             </p>
                                         </div>
                                     </div>

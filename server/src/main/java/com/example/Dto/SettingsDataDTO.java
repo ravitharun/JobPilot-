@@ -1,14 +1,34 @@
 package com.example.Dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class SettingsDataDTO {
+
+    @JsonProperty("ApplicationSettingId")
     private long applicationSettingId;
+
+    @JsonProperty("Applicationupdates")
     private Boolean applicationupdates;
+
+    @JsonProperty("Automaticapplications")
     private Boolean automaticapplications;
+
+    @JsonProperty("Automationreports")
     private Boolean automationreports;
+
+    @JsonProperty("EmailNotification")
     private Boolean emailNotification;
+
+    @JsonProperty("Enableautomation")
     private Boolean enableautomation;
+
+    @JsonProperty("Interviewalerts")
     private Boolean interviewalerts;
+
+    @JsonProperty("Reviewbeforeapplying")
     private Boolean reviewbeforeapplying;
+
+    @JsonProperty("userId")
     private long userId;
 
     public long getApplicationSettingId() {
@@ -82,5 +102,4 @@ public class SettingsDataDTO {
     public void setUserId(long userId) {
         this.userId = userId;
     }
-
 }
