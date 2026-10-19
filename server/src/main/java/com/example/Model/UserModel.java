@@ -3,7 +3,8 @@ package com.example.Model;
 // import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.sun.istack.NotNull;
+// import com.sun.istack.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 // import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
@@ -13,7 +14,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-// import net.bytebuddy.implementation.bind.annotation.Default;
 
 @Entity
 @Table(name = "Users")
