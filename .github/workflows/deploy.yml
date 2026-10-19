@@ -35,6 +35,7 @@ jobs:
 
   Server:
     name: Build Spring Boot Server
+    needs: Ui
     runs-on: ubuntu-latest
 
     services:
