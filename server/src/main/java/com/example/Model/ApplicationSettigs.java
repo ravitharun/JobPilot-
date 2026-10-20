@@ -37,7 +37,7 @@ public class ApplicationSettigs {
     }
 
     public void setApplicationSettingId(long applicationSettingId) {
-        applicationSettingId = applicationSettingId;
+        this.applicationSettingId = applicationSettingId;
     }
 
     public long getUserId() {
@@ -45,7 +45,7 @@ public class ApplicationSettigs {
     }
 
     public void setUserId(long userId) {
-        userId = userId;
+        this.userId = userId;
     }
 
     public boolean isEnableautomation() {

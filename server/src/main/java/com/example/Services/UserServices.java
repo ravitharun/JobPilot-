@@ -12,14 +12,17 @@ import com.example.Dto.SignupDto;
 // import com.example.Dto.UserProfileDto;
 import com.example.Model.UserModel;
 import com.example.Model.ApplicationSettigs;
+import com.example.Model.JobSearchPreferences;
+import com.example.Model.ProfessionalDetails;
 import com.example.Model.UserProfileModel;
 import com.example.Dto.LoginDto;
 import com.example.Repository.UserProfileRepo;
 import com.example.Repository.ApplicationSettingsRepo;
+import com.example.Repository.JobSearchPreferencesRepo;
+import com.example.Repository.ProfessionalDetailsRepo;
 import com.example.Repository.UserRepository;
 import com.example.Response.ApiErrorResponse;
 import com.example.Response.ApiSucessResponse;
-import javax.sql.DataSource;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -27,13 +30,18 @@ public class UserServices {
 	@Autowired
 	public UserRepository userRepo;
 	@Autowired
+	public ApplicationSettingsRepo ApplicationSettingsRepo;
+	@Autowired
 	public UserProfileRepo userProfileRepo;
 
 	@Autowired
 	PasswordEncoder PasswordEncoder;
-
+	@Autowired
+	JobSearchPreferencesRepo jobPreferencesRepo;
 	@Autowired
 	ApplicationSettingsRepo applicationSettingsRepo;
+	@Autowired
+	ProfessionalDetailsRepo professionalDetailsRepo;
 
 	// create a new account logic
 	@Transactional
@@ -63,24 +71,34 @@ public class UserServices {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(api_err);
 
 		}
+
 		// Create the profile
 		UserProfileModel user_P = new UserProfileModel();
-
 		// Save the new account first
 		UserModel user = userRepo.save(u);
-
-		// Connect the profile to the saved user
+		// insrertt the profile to the saved user
 		user_P.setUserid(u.getUserApplicationId());
-
 		// Save the profile
 		UserProfileModel user_profile_response = userProfileRepo.save(user_P);
-		// applicationSettings
-		ApplicationSettigs appset = new ApplicationSettigs();
 
-		appset.setUserId(u.getUserApplicationId());
+		// Professional_Details
+		ProfessionalDetails Professional_Details = new ProfessionalDetails();
+		Professional_Details.setUserid(u.getUserApplicationId());
+		System.err.println(Professional_Details.getUserid() + "Professional_Details.setUserid");
+		// save the professionalDetailsRepo
+		ProfessionalDetails p = professionalDetailsRepo.save(Professional_Details);
 
-		// applicationSettingsRepo.JobSearchPreferencesRepo(appset);
+		// save the ApplicationSettigs
+		ApplicationSettigs app_setting = new ApplicationSettigs();
+		app_setting.setUserId(u.getUserApplicationId());
+		ApplicationSettingsRepo.save(app_setting);
 
+		// JobSearchPreferences
+		JobSearchPreferences jobPrefernce = new JobSearchPreferences();
+		jobPrefernce.setUserApplicationId(u.getUserApplicationId());
+		jobPreferencesRepo.save(jobPrefernce);
+
+		// API Sucess Response
 		api_sucess.setData(user);
 		api_sucess.setStatusCode(HttpStatus.OK);
 		api_sucess.setMessage("created anew acount");
@@ -90,9 +108,7 @@ public class UserServices {
 
 	// Login into the account
 	public ResponseEntity<?> Signin(String userEmail, String Application_password) {
-		System.err.println(Application_password);
-		System.err.println(userEmail);
-	
+
 		ApiSucessResponse api_sucess = new ApiSucessResponse();
 		ApiErrorResponse api_Err = new ApiErrorResponse();
 		LoginDto login = new LoginDto();
@@ -103,8 +119,16 @@ public class UserServices {
 			System.err.println("UUU" + u);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(api_Err);
 		}
-		
-		if (u.getUserEmail().equals(userEmail) && u.getUserPasswoard().equals(Application_password)) {
+		// matches(u.getUserPasswoard())
+		boolean check = PasswordEncoder.matches(
+				Application_password,
+				u.getUserPasswoard());
+
+		System.err.println(check + " check");
+
+		if (u.getUserEmail() != null
+				&& u.getUserEmail().equalsIgnoreCase(userEmail)
+				&& check) {
 
 			login.setUseremail(u.getUserEmail());
 			login.setUserName(u.getUsername());

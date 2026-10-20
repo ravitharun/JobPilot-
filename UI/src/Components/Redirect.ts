@@ -1,6 +1,6 @@
-export const Redirectpage=()=>{
+export const Redirectpage = () => {
 
 
 
-    return window.location.href="/"
+    return window.location.href = "/login"
 }

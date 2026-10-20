@@ -69,7 +69,7 @@ function Settings() {
 
     let a: any | string | null = JSON.parse(localStorage.getItem("User") ?? "")
 
-    console.log(a.ApplicationuserId)
+    // console.log(a.ApplicationuserId)
 
 
     useEffect(() => {
@@ -180,7 +180,7 @@ function Settings() {
                 DailyApplicationLimit: applicationlimit,
                 ExpectedSalary: Salary,
                 ExperienceLevel: YourExp,
-                JobSearchPreferencesid: data.JobSearchPreferencesid,
+                JobSearchPreferencesid: data?.JobSearchPreferencesid,
                 PreferredJobRole: JobRole,
                 PreferredLocation: PreferredLocation,
                 WorkMode: WorkMode,
@@ -201,7 +201,7 @@ function Settings() {
         } catch (error: any) {
             alert(error?.response?.data?.message);
             return Toast(
-                { messages: error?.response?.data, code: error ?.response?.status, type: "Error" }
+                { messages: error?.response?.data, code: error?.response?.status, type: "Error" }
             )
         }
     }
