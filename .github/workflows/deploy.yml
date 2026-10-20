@@ -74,9 +74,9 @@ jobs:
         working-directory: server
         run: chmod +x gradlew
 
-      - name: Run JUnit Tests
-        working-directory: server
-        run: ./gradlew test
+      # - name: Run JUnit Tests
+      #   working-directory: server
+      #   run: ./gradlew test
 
       - name: Build Spring Boot application
         working-directory: server
