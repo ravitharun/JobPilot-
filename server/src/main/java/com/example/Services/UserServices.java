@@ -79,15 +79,16 @@ public class UserServices {
 		// insrertt the profile to the saved user
 		user_P.setUserid(u.getUserApplicationId());
 		// Save the profile
-		UserProfileModel user_profile_response = userProfileRepo.save(user_P);
+		// UserProfileModel user_profile_response = userProfileRepo.save(user_P);
+		userProfileRepo.save(user_P);
 
 		// Professional_Details
 		ProfessionalDetails Professional_Details = new ProfessionalDetails();
 		Professional_Details.setUserid(u.getUserApplicationId());
 		System.err.println(Professional_Details.getUserid() + "Professional_Details.setUserid");
 		// save the professionalDetailsRepo
-		ProfessionalDetails p = professionalDetailsRepo.save(Professional_Details);
-
+		// ProfessionalDetails p = professionalDetailsRepo.save(Professional_Details);
+		professionalDetailsRepo.save(Professional_Details);
 		// save the ApplicationSettigs
 		ApplicationSettigs app_setting = new ApplicationSettigs();
 		app_setting.setUserId(u.getUserApplicationId());
