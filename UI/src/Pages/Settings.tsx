@@ -14,6 +14,7 @@ import {
     FiLock,
     FiTrash2,
     FiChevronRight,
+    FiGlobe,
 } from "react-icons/fi";
 
 import MainSidebar from "../Components/MainSidebar";
@@ -27,6 +28,7 @@ import api from "../Components/ApiInsstance";
 import { Toaster } from "sonner";
 import Loader from "../Components/Loader";
 import { Toast } from "../Components/Toast";
+import NaukriLogin from "../Components/NaukriLogin";
 
 function Settings() {
     const Theme = useSelector((state: any) => state.counter.value);
@@ -158,6 +160,7 @@ function Settings() {
                 break;
         }
     }
+    const [poupnaukiri, setpoupnaukiri] = useState<boolean>(false);
 
     // HandelSavePerefence
 
@@ -245,20 +248,28 @@ function Settings() {
         </div>
     );
 
-    const AccountItem = ({ icon: Icon, title, description, route }: any) => (
+    const AccountItem = ({ icon: Icon, title, description, route, onClick }: any) => (
+        <>
+            <Link to={route} onClick={() => updatenavigationPages(UpdateNaviagtion("Profile"))}>
+                <div
+                    className={`flex items-center gap-3 rounded-xl p-3 ${Theme ? "hover:bg-slate-800" : "hover:bg-slate-50"
+                        }`}
 
-        <Link to={route} onClick={() => updatenavigationPages(UpdateNaviagtion("Profile"))}>
-            <div
-                className={`flex items-center gap-3 rounded-xl p-3 ${Theme ? "hover:bg-slate-800" : "hover:bg-slate-50"
-                    }`}
-            >
-                <Icon size={19} className={muted} />
-                <div className="min-w-0 flex-1">
-                    <p className={`text-sm font-medium ${heading}`}>{title}</p>
-                    <p className={`mt-1 text-xs ${muted}`}>{description}</p>
-                </div>
-                <FiChevronRight className={muted} />
-            </div></Link>
+                    onClick={onClick}
+                >
+                    <Icon size={19} className={muted} />
+                    <div className="min-w-0 flex-1">
+                        <p className={`text-sm font-medium ${heading}`}>{title}</p>
+                        <p className={`mt-1 text-xs ${muted}`}>{description}</p>
+                    </div>
+                    <FiChevronRight className={muted} />
+                </div></Link>
+            {poupnaukiri && <>
+
+                <NaukriLogin onClose={() => setpoupnaukiri(false)} isDark={Theme} ></NaukriLogin>
+            </>}
+
+        </>
     );
 
     return (
@@ -534,8 +545,14 @@ function Settings() {
                                     title="Account"
                                     description="Manage account details and security."
                                 />
-
                                 <div className="space-y-1 p-4">
+                                    <AccountItem
+                                        icon={FiGlobe}
+                                        title="Connected Job Portals"
+                                        description="Connect and manage your Naukri account for job automation."
+                                        route="/Settings"
+                                        onClick={() => setpoupnaukiri(true)}
+                                    />
                                     <AccountItem
                                         icon={FiUser}
                                         title="Personal Information"

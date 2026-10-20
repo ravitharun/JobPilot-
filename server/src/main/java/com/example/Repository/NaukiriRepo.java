@@ -6,4 +6,5 @@ import com.example.Model.NaukiriLoginModel;
 
 public interface NaukiriRepo extends JpaRepository<NaukiriLoginModel, Long> {
 
+    
 }
