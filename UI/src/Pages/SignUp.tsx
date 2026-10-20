@@ -66,7 +66,8 @@ function Signup() {
 
             setTimeout(() => {
                 if (response.status == 200) {
-                    return Redirectpage();
+                    Redirectpage();
+                return
                 }
             }, 2500);
             Toast({

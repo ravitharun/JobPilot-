@@ -23,7 +23,7 @@ public class AuthController {
 	private UserServices user;
 
 	@PostMapping("/singup")
-	public ResponseEntity<?> name(@Valid @RequestBody SignupDto logindto) {
+	public ResponseEntity<?> name(@RequestBody SignupDto logindto) {
 
 		return user.Signup(logindto);
 

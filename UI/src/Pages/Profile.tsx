@@ -1,9 +1,9 @@
 
-import  { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     FiUser,
     FiMail,
-    
+
     FiMapPin,
     FiBriefcase,
     FiFileText,
@@ -22,6 +22,7 @@ import MainSidebar from "../Components/MainSidebar";
 import Headers from "../Components/Headers";
 import MobileNavigation from "../Components/MobileNav";
 import { useSelector } from "react-redux";
+import api from "../Components/ApiInsstance";
 
 function Profile() {
     const Theme = useSelector((state: any) => state.counter.value);
@@ -41,6 +42,29 @@ function Profile() {
     });
 
     const [resume, setResume] = useState<any>(null);
+    let a: any | string | null = JSON.parse(localStorage.getItem("User") ?? "")
+
+    //  get the profile data
+    useEffect(() => {
+        const GetProfile = async () => {
+
+
+            try {
+                const response = await api.get("Profile/User/profile", {
+                    params: {
+                        userid: a.ApplicationuserId
+                    }
+                })
+                console.log(response?.data?.data    )
+                console.log(response?.status)
+            } catch (error) {
+
+            }
+        }
+        GetProfile()
+    }, [a])
+
+
 
     const updateProfile = (e: any) => {
         const { name, value } = e.target;
@@ -52,6 +76,9 @@ function Profile() {
         // Connect this handler to your Spring Boot profile API.
         setEditing(false);
     };
+
+
+
 
     const card = `rounded-2xl border shadow-sm ${Theme
         ? "border-slate-700 bg-slate-900"
