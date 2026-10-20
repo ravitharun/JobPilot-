@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.Dto.SignupDto;
 import com.example.Services.UserServices;
 
-import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
