@@ -55,7 +55,7 @@ function Profile() {
                         userid: a.ApplicationuserId
                     }
                 })
-                console.log(response?.data?.data    )
+                console.log(response?.data?.data)
                 console.log(response?.status)
             } catch (error) {
 
@@ -94,6 +94,43 @@ function Profile() {
         }`;
 
     const labelClass = `mb-2 block text-sm font-medium ${muted}`;
+
+    const HandelFileResume = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+
+        if (!file) return;
+
+        if (file.size > 5 * 1024 * 1024) {
+            alert("File size must be 5 MB or less.");
+            e.target.value = "";
+            return;
+        }
+
+        setResume(file);
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const response = await api.post(
+                "/Profile/upload-resume",
+                formData, {
+                headers: {
+                    "Content-Type": undefined
+                }
+            }
+            );
+
+            console.log("Resume upload response:", response.data);
+            alert("Resume uploaded successfully!");
+        } catch (error: any) {
+            console.error(
+                "Resume upload failed:",
+                error.response?.status,
+                error.response?.data ?? error.message
+            );
+        }
+    };
 
     return (
         <div
@@ -270,19 +307,7 @@ function Profile() {
                                             type="file"
                                             accept=".pdf,.doc,.docx"
                                             className="hidden"
-                                            onChange={(e) => {
-                                                const file = e.target.files?.[0];
-
-                                                if (!file) return;
-
-                                                if (file.size > 5 * 1024 * 1024) {
-                                                    alert("File size must be 5 MB or less.");
-                                                    e.target.value = "";
-                                                    return;
-                                                }
-
-                                                setResume(file);
-                                            }}
+                                            onChange={(e) => HandelFileResume(e)}
                                         />
                                     </label>
 

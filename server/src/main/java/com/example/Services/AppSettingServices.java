@@ -2,6 +2,7 @@ package com.example.Services;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,164 +25,169 @@ import com.example.Model.JobSearchPreferences;
 @Service
 public class AppSettingServices {
 
-    @Autowired
+        @Autowired
 
-    ApplicationSettingsRepo applicationSettingsRepo;
-    @Autowired
+        ApplicationSettingsRepo applicationSettingsRepo;
+        @Autowired
 
-    JobSearchPreferencesRepo jobSearchPreferencesRepo;
-    @Autowired
-    ApplicationSettingsRepo appSettingRepo;
+        JobSearchPreferencesRepo jobSearchPreferencesRepo;
+        @Autowired
+        ApplicationSettingsRepo appSettingRepo;
 
-    // GET: the App settings and JobSearchPreferences data
-    public ResponseEntity<?> GetSetting_app(String UserId) {
-        System.err.println(UserId);
-        ApiErrorResponse err = new ApiErrorResponse();
-        Map<String, Object> m = new HashMap<>();
+        // GET: the App settings and JobSearchPreferences data
+        public ResponseEntity<?> GetSetting_app(String UserId) {
+                System.err.println(UserId);
+                ApiErrorResponse err = new ApiErrorResponse();
+                Map<String, Object> m = new HashMap<>();
 
-        try {
+                try {
 
-            // Check whether UserId is null or empty
-            if (UserId == null || UserId.trim().isEmpty()) {
+                        // Check whether UserId is null or empty
+                        if (UserId == null || UserId.trim().isEmpty()) {
 
-                err.setErrorMessage("UserId cannot be null or empty.");
-                err.setErrorcode(HttpStatus.BAD_REQUEST);
+                                err.setErrorMessage("UserId cannot be null or empty.");
+                                err.setErrorcode(HttpStatus.BAD_REQUEST);
 
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
-            }
+                                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+                        }
 
-            // Convert String to long
-            long USERID = Long.parseLong(UserId);
+                        // Convert String to long
+                        long USERID = Long.parseLong(UserId);
 
-            System.err.println(USERID + "dfgrht");
+                        System.err.println(USERID + "dfgrht");
 
-            // Fetch application settings
-            ApplicationSettigs app = applicationSettingsRepo.findByUserId(USERID);
-            JobSearchPreferences job = jobSearchPreferencesRepo.findByUserApplicationId(USERID);
+                        // Fetch application settings
+                        ApplicationSettigs app = applicationSettingsRepo.findByUserId(USERID);
+                        JobSearchPreferences job = jobSearchPreferencesRepo.findByUserApplicationId(USERID);
 
-            // Check whether settings exist
-            if (app == null) {
+                        // Check whether settings exist
+                        if (app == null) {
 
-                err.setErrorMessage("Application settings not found.");
-                err.setErrorcode(HttpStatus.NOT_FOUND);
+                                err.setErrorMessage("Application settings not found.");
+                                err.setErrorcode(HttpStatus.NOT_FOUND);
 
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
-            }
+                                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+                        }
 
-            m.put("Settingsdata", app);
-            m.put("message", "Application Settings");
-            m.put("Jobperfecncedata", job);
+                        m.put("Settingsdata", app);
+                        m.put("message", "Application Settings");
+                        m.put("Jobperfecncedata", job);
 
-            return ResponseEntity.status(HttpStatus.OK).body(m);
-        } catch (NumberFormatException e) {
+                        return ResponseEntity.status(HttpStatus.OK).body(m);
+                } catch (NumberFormatException e) {
 
-            err.setErrorMessage("Invalid UserId. Please provide a valid number.");
-            err.setErrorcode(HttpStatus.BAD_REQUEST);
-            System.err.println("exp 1 " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+                        err.setErrorMessage("Invalid UserId. Please provide a valid number.");
+                        err.setErrorcode(HttpStatus.BAD_REQUEST);
+                        System.err.println("exp 1 " + e.getMessage());
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 
-        } catch (Exception e) {
-            System.err.println("exp 2" + e.getMessage());
+                } catch (Exception e) {
+                        System.err.println("exp 2" + e.getMessage());
 
-            err.setErrorMessage("Something went wrong while fetching application settings.");
-            err.setErrorcode(HttpStatus.INTERNAL_SERVER_ERROR);
+                        err.setErrorMessage("Something went wrong while fetching application settings.");
+                        err.setErrorcode(HttpStatus.INTERNAL_SERVER_ERROR);
 
-            return ResponseEntity.status(err.getErrorcode()).body(err);
-        }
-    }
-
-    // put:/Update/Settings userapp settngsincluded(
-
-    // update the settings
-    @Transactional
-    public ResponseEntity<?> UpdateSettings(AppSettingDTO appsetting) {
-
-        SettingsDataDTO setting = appsetting.getSettingsdata();
-        JobPreferencesDTO jobData = appsetting.getJobperfecncedata();
-
-        if (setting == null || jobData == null) {
-            return ResponseEntity.badRequest()
-                    .body("Settingsdata or Jobperfecncedata is missing");
+                        return ResponseEntity.status(err.getErrorcode()).body(err);
+                }
         }
 
-        try {
-            System.out.println("ApplicationSettingId: "
-                    + setting.getApplicationSettingId());
+        // put:/Update/Settings userapp settngsincluded(
 
-            JobSearchPreferences job = jobSearchPreferencesRepo.findByUserApplicationId(
-                    jobData.getUserApplicationId());
+        // update the settings
+        @Transactional
+        public ResponseEntity<?> UpdateSettings(AppSettingDTO appsetting) {
 
-            ApplicationSettigs settings = appSettingRepo.findByUserId(
-                    setting.getApplicationSettingId());
+                SettingsDataDTO setting = appsetting.getSettingsdata();
+                JobPreferencesDTO jobData = appsetting.getJobperfecncedata();
 
-            // Check both records before updating
-            if (job == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Job preferences not found");
-            }
+                if (setting == null || jobData == null) {
+                        return ResponseEntity.badRequest()
+                                        .body("Settingsdata or Jobperfecncedata is missing");
+                }
 
-            if (settings == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Application settings not found");
-            }
+                try {
+                        System.out.println("ApplicationSettingId: "
+                                        + setting.getApplicationSettingId());
 
-            // Update job preferences
-            job.setDailyApplicationLimit(
-                    jobData.getDailyApplicationLimit());
+                        JobSearchPreferences job = jobSearchPreferencesRepo.findByUserApplicationId(
+                                        jobData.getUserApplicationId());
 
-            job.setExpectedSalary(
-                    jobData.getExpectedSalary());
+                        ApplicationSettigs settings = appSettingRepo.findByUserId(
+                                        setting.getApplicationSettingId());
 
-            job.setExperienceLevel(
-                    jobData.getExperienceLevel());
+                        // Check both records before updating
+                        if (job == null) {
+                                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                                .body("Job preferences not found");
+                        }
 
-            job.setPreferredJobRole(
-                    jobData.getPreferredJobRole());
+                        if (settings == null) {
+                                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                                .body("Application settings not found");
+                        }
 
-            job.setPreferredLocation(
-                    jobData.getPreferredLocation());
+                        // Update job preferences
+                        job.setDailyApplicationLimit(
+                                        jobData.getDailyApplicationLimit());
 
-            job.setWorkMode(
-                    jobData.getWorkMode());
+                        job.setExpectedSalary(
+                                        jobData.getExpectedSalary());
 
-            // Update application settings
-            settings.setApplicationupdates(
-                    setting.getApplicationupdates());
+                        job.setExperienceLevel(
+                                        jobData.getExperienceLevel());
 
-            settings.setAutomaticapplications(
-                    setting.getAutomaticapplications());
+                        job.setPreferredJobRole(
+                                        jobData.getPreferredJobRole());
 
-            settings.setAutomationreports(
-                    setting.getAutomationreports());
+                        job.setPreferredLocation(
+                                        jobData.getPreferredLocation());
 
-            settings.setEmailNotification(
-                    setting.getEmailNotification());
+                        job.setWorkMode(
+                                        jobData.getWorkMode());
 
-            settings.setEnableautomation(
-                    setting.getEnableautomation());
+                        // Update application settings
+                        settings.setApplicationupdates(
+                                        setting.getApplicationupdates());
 
-            settings.setInterviewalerts(
-                    setting.getInterviewalerts());
+                        settings.setAutomaticapplications(
+                                        setting.getAutomaticapplications());
 
-            settings.setReviewbeforeapplying(
-                    setting.getReviewbeforeapplying());
+                        settings.setAutomationreports(
+                                        setting.getAutomationreports());
 
-            // Save both entities
-            System.out.println("Before saving job preferences");
-            jobSearchPreferencesRepo.saveAndFlush(job);
-            System.out.println("Job preferences saved successfully");
+                        settings.setEmailNotification(
+                                        setting.getEmailNotification());
 
-            System.out.println("Before saving application settings");
-            appSettingRepo.saveAndFlush(settings);
-            System.out.println("Application settings saved successfully");
+                        settings.setEnableautomation(
+                                        setting.getEnableautomation());
 
-            return ResponseEntity.ok("Settings updated successfully");
+                        settings.setInterviewalerts(
+                                        setting.getInterviewalerts());
 
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-            throw e;
+                        settings.setReviewbeforeapplying(
+                                        setting.getReviewbeforeapplying());
+
+                        // Save both entities
+                        System.out.println("Before saving job preferences");
+                        JobSearchPreferences jobSerch = jobSearchPreferencesRepo.saveAndFlush(job);
+                        System.out.println("Job preferences saved successfully");
+
+                        System.out.println("Before saving application settings");
+                        ApplicationSettigs app = appSettingRepo.saveAndFlush(settings);
+                        System.out.println("Application settings saved successfully");
+                        Map<String, Object> m = new HashMap<>();
+
+                        m.put("AppSetting", jobSerch);
+                        m.put("message", "Settings Updated");
+                        m.put("code", HttpStatus.OK);
+
+                        return ResponseEntity.status(HttpStatus.OK).body(m);
+
+                } catch (Exception e) {
+                        System.err.println(e.getMessage());
+                        e.printStackTrace();
+                        throw e;
+                }
         }
-    }
 
 }
