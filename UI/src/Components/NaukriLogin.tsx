@@ -8,6 +8,9 @@ import {
     FiEyeOff,
     FiBriefcase,
 } from "react-icons/fi";
+import api from "./ApiInsstance";
+import { Toast } from "./Toast";
+import { user } from "./Local";
 
 interface NaukriLoginProps {
     onClose: () => void;
@@ -20,14 +23,39 @@ function NaukriLogin({ onClose, isDark }: NaukriLoginProps | any) {
     const [showPassword, setShowPassword] = useState(false);
 
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log(email, password);
+
+        if (!email || !password) {
+            return Toast({
+                messages: "Fill the required inputs", code: 400, type: "Error".toUpperCase()
+            })
+        }
+        try {
+            const response = await api.post("naukri/user/Add", {
+                "user_Naukri_email": email,
+                "user_Naukri_passwrod": password,
+                "User_appliocation_id": user.ApplicationuserId
+            })
+            console.log(response)
+    
+            return Toast({
+                messages: response.data.message, code: response.status, type: "Sucesss".toUpperCase()
+            })
+        } catch (error: any) {
+
+
+
+            return Toast({
+                messages: error.response.message, code: error.status, type: "error".toUpperCase()
+            })
+        }
     };
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
-            {/* Popup only: no full-screen backdrop */}
+          
             <div
                 className={`pointer-events-auto relative w-full max-w-md overflow-hidden rounded-2xl border shadow-2xl ${isDark
                     ? "border-gray-700 bg-gray-900 text-white"

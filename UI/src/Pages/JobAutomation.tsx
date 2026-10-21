@@ -16,12 +16,16 @@ import MobileNavigation from "../Components/MobileNav"
 import { useDispatch, useSelector } from "react-redux";
 import { UpdateNaviagtion } from "../Store/Navigation";
 import { Link } from "react-router-dom";
+import { applications_ApplyLimit, JOB_EXP, User_JobPrefence } from "../Components/Local";
 
 function JobAutomation() {
 
   const Theme = useSelector((state: any) => state.counter.value);
   useSelector((state: any) => state.navigationPages.value);
   const updatenavigationPages = useDispatch();
+
+
+
   return (
     <>
       <div
@@ -231,255 +235,195 @@ function JobAutomation() {
             </section>
 
             {/* Bottom Content */}
-            <div className="grid gap-6 xl:grid-cols-3">
-
-              {/* Automation Preferences */}
-              <section
-                className={`rounded-2xl border shadow-sm xl:col-span-2 ${Theme
-                  ? "border-slate-700 bg-slate-900"
-                  : "border-slate-200 bg-white"
+            {/* Automation Preferences */}
+            <section
+              className={`min-w-0 overflow-hidden rounded-2xl border shadow-sm xl:col-span-2 ${Theme
+                ? "border-slate-700 bg-slate-900"
+                : "border-slate-200 bg-white"
+                }`}
+            >
+              {/* Header */}
+              <div
+                className={`flex items-center justify-between border-b px-5 py-4 sm:px-6 ${Theme ? "border-slate-700" : "border-slate-100"
                   }`}
               >
-
-                <div
-                  className={`flex items-center justify-between border-b px-5 py-4 sm:px-6 ${Theme ? "border-slate-700" : "border-slate-100"
-                    }`}
-                >
-                  <div>
-                    <h3
-                      className={`font-bold ${Theme ? "text-white" : "text-slate-900"
-                        }`}
-                    >
-                      Automation Preferences
-                    </h3>
-
-                    <p className="mt-1 text-xs text-slate-400">
-                      Define which jobs JobPilot should search for.
-                    </p>
-                  </div>
-
-                  <FiSettings className="text-slate-400" size={19} />
-                </div>
-
-                <div className="grid gap-5 p-5 sm:grid-cols-2 sm:p-6">
-
-                  {/* Job Role */}
-                  <div>
-                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
-                      Job Role
-                    </p>
-
-                    <div
-                      className={`flex items-center gap-3 rounded-xl border px-4 py-3 ${Theme
-                        ? "border-slate-700 bg-slate-800"
-                        : "border-slate-200"
-                        }`}
-                    >
-                      <FiBriefcase className="text-slate-400" />
-
-                      <span
-                        className={`text-sm font-medium ${Theme ? "text-slate-200" : "text-slate-700"
-                          }`}
-                      >
-                        Java Full Stack Developer
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Location */}
-                  <div>
-                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
-                      Location
-                    </p>
-
-                    <div
-                      className={`flex items-center gap-3 rounded-xl border px-4 py-3 ${Theme
-                        ? "border-slate-700 bg-slate-800"
-                        : "border-slate-200"
-                        }`}
-                    >
-                      <FiMapPin className="text-slate-400" />
-
-                      <span
-                        className={`text-sm font-medium ${Theme ? "text-slate-200" : "text-slate-700"
-                          }`}
-                      >
-                        Bengaluru, Hyderabad
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Experience */}
-                  <div>
-                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
-                      Experience
-                    </p>
-
-                    <div
-                      className={`rounded-xl border px-4 py-3 ${Theme
-                        ? "border-slate-700 bg-slate-800"
-                        : "border-slate-200"
-                        }`}
-                    >
-                      <span
-                        className={`text-sm font-medium ${Theme ? "text-slate-200" : "text-slate-700"
-                          }`}
-                      >
-                        Fresher / 0–1 Years
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Daily Limit */}
-                  <div>
-                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
-                      Daily Application Limit
-                    </p>
-
-                    <div
-                      className={`rounded-xl border px-4 py-3 ${Theme
-                        ? "border-slate-700 bg-slate-800"
-                        : "border-slate-200"
-                        }`}
-                    >
-                      <span
-                        className={`text-sm font-medium ${Theme ? "text-slate-200" : "text-slate-700"
-                          }`}
-                      >
-                        25 Applications
-                      </span>
-                    </div>
-                  </div>
-
-                </div>
-
-                <div
-                  className={`border-t px-5 py-4 sm:px-6 ${Theme ? "border-slate-700" : "border-slate-100"
-                    }`}
-                >
-                  <button className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800">
-                    <FiSettings size={16} />
-                    Edit Preferences
-                  </button>
-                </div>
-
-              </section>
-
-              {/* Recent Activity */}
-              <section
-                className={`rounded-2xl border shadow-sm ${Theme
-                  ? "border-slate-700 bg-slate-900"
-                  : "border-slate-200 bg-white"
-                  }`}
-              >
-
-                <div
-                  className={`border-b px-5 py-4 ${Theme ? "border-slate-700" : "border-slate-100"
-                    }`}
-                >
+                <div>
                   <h3
                     className={`font-bold ${Theme ? "text-white" : "text-slate-900"
                       }`}
                   >
-                    Recent Activity
+                    Automation Preferences
                   </h3>
-
                   <p className="mt-1 text-xs text-slate-400">
-                    Latest automation activity
+                    Define which jobs JobPilot should search for.
                   </p>
                 </div>
 
-                <div className="space-y-5 p-5">
+                <div
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${Theme ? "bg-slate-800" : "bg-slate-100"
+                    }`}
+                >
+                  <FiSettings
+                    className={Theme ? "text-slate-300" : "text-slate-600"}
+                    size={19}
+                  />
+                </div>
+              </div>
 
-                  {/* Activity 1 */}
-                  <div className="flex gap-3">
-                    <div
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${Theme ? "bg-slate-800" : "bg-slate-100"
+              {/* Preferences */}
+              <div className="grid gap-5 p-5 sm:grid-cols-2 sm:p-6">
+                {/* Job Role */}
+                <div className="min-w-0">
+                  <label
+                    htmlFor="job-role"
+                    className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-400"
+                  >
+                    Job Role
+                  </label>
+
+                  <div
+                    className={`flex items-center gap-3 rounded-xl border px-4 transition focus-within:border-blue-500 ${Theme
+                      ? "border-slate-700 bg-slate-800"
+                      : "border-slate-200 bg-slate-50"
+                      }`}
+                  >
+                    <FiBriefcase className="shrink-0 text-slate-400" size={17} />
+
+                    <input
+                      id="job-role"
+                      type="text"
+                      value={User_JobPrefence?.PreferredJobRole ?? ""}
+                      placeholder="e.g. Java Developer"
+                      // readOnly
+                      className={`w-full min-w-0 bg-transparent py-3 text-sm font-medium outline-none ${Theme ? "text-slate-200" : "text-slate-700"
                         }`}
-                    >
-                      <FiCheckCircle
-                        className="text-emerald-600"
-                        size={16}
-                      />
-                    </div>
-
-                    <div>
-                      <p
-                        className={`text-sm font-semibold ${Theme ? "text-slate-200" : "text-slate-700"
-                          }`}
-                      >
-                        Application submitted
-                      </p>
-
-                      <p className="mt-0.5 text-xs text-slate-400">
-                        Java Developer · 5 min ago
-                      </p>
-                    </div>
+                    />
                   </div>
-
-                  {/* Activity 2 */}
-                  <div className="flex gap-3">
-                    <div
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${Theme ? "bg-slate-800" : "bg-slate-100"
-                        }`}
-                    >
-                      <FiSearch
-                        className={
-                          Theme ? "text-slate-300" : "text-slate-700"
-                        }
-                        size={16}
-                      />
-                    </div>
-
-                    <div>
-                      <p
-                        className={`text-sm font-semibold ${Theme ? "text-slate-200" : "text-slate-700"
-                          }`}
-                      >
-                        12 new jobs found
-                      </p>
-
-                      <p className="mt-0.5 text-xs text-slate-400">
-                        18 min ago
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Activity 3 */}
-                  <div className="flex gap-3">
-                    <div
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${Theme ? "bg-slate-800" : "bg-slate-100"
-                        }`}
-                    >
-                      <FiAlertCircle
-                        className="text-amber-600"
-                        size={16}
-                      />
-                    </div>
-
-                    <div>
-                      <p
-                        className={`text-sm font-semibold ${Theme ? "text-slate-200" : "text-slate-700"
-                          }`}
-                      >
-                        Application skipped
-                      </p>
-
-                      <p className="mt-0.5 text-xs text-slate-400">
-                        Missing required skill · 32 min ago
-                      </p>
-                    </div>
-                  </div>
-
                 </div>
 
-              </section>
+                {/* Location */}
+                <div className="min-w-0">
+                  <label
+                    htmlFor="job-location"
+                    className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-400"
+                  >
+                    Preferred Location
+                  </label>
+
+                  <div
+                    className={`flex items-center gap-3 rounded-xl border px-4 transition focus-within:border-blue-500 ${Theme
+                      ? "border-slate-700 bg-slate-800"
+                      : "border-slate-200 bg-slate-50"
+                      }`}
+                  >
+                    <FiMapPin className="shrink-0 text-slate-400" size={17} />
+
+                    <input
+                      id="job-location"
+                      type="text"
+                      value={User_JobPrefence?.PreferredLocation ?? "user"}
+                      placeholder="e.g. Bengaluru"
+   
+
+                      onChange={(e) => console.log(e.target.value)}
+                      className={`w-full min-w-0 bg-transparent py-3 text-sm font-medium outline-none ${Theme ? "text-slate-200" : "text-slate-700"
+                        }`}
+                    />
+                  </div>
+                </div>
+
+                {/* Experience */}
+                <div className="min-w-0">
+                  <label
+                    htmlFor="job-experience"
+                    className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-400"
+                  >
+                    Experience Level
+                  </label>
+
+                  <div
+                    className={`flex items-center gap-3 rounded-xl border px-4 transition focus-within:border-blue-500 ${Theme
+                      ? "border-slate-700 bg-slate-800"
+                      : "border-slate-200 bg-slate-50"
+                      }`}
+                  >
+                    <FiBriefcase className="shrink-0 text-slate-400" size={17} />
+
+                    <select
+                      id="job-experience"
+                      value={User_JobPrefence?.ExperienceLevel ?? ""}
+
+                      className={`w-full min-w-0 appearance-none bg-transparent py-3 text-sm font-medium outline-none ${Theme ? "text-slate-200" : "text-slate-700"
+                        }`}
+                    >
 
 
+                      {JOB_EXP.map((exp, idx) => (
+                        <option value={exp} key={idx} className="text-black bg-white">
+                          {exp}{exp === "Fresher" ? "" : " years"}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
 
+                {/* Daily Application Limit */}
+                <div className="min-w-0">
+                  <label
+                    htmlFor="daily-limit"
+                    className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-400"
+                  >
+                    Daily Application Limit
+                  </label>
 
+                  <div
+                    className={`flex items-center gap-3 rounded-xl border px-4 transition focus-within:border-blue-500 ${Theme
+                      ? "border-slate-700 bg-slate-800"
+                      : "border-slate-200 bg-slate-50"
+                      }`}
+                  >
+                    <FiCheckCircle className="shrink-0 text-slate-400" size={17} />
 
-            </div>
+                    <select
+                      id="daily-limit"
+                      value={String(User_JobPrefence?.DailyApplicationLimit ?? "")}
+
+                      className={`w-full min-w-0 appearance-none bg-transparent py-3 text-sm font-medium outline-none ${Theme ? "text-slate-200" : "text-slate-700"
+                        }`}
+                    >
+                      {/* <option value="">Not configured</option> */}
+
+                      {applications_ApplyLimit.map((limit, idx) => (
+                        <option value={String(limit)} key={idx} className="text-black bg-white">
+                          {limit} applications
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div
+                className={`flex flex-col gap-3 border-t px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 ${Theme ? "border-slate-700" : "border-slate-100"
+                  }`}
+              >
+                <p className="text-xs text-slate-400">
+                  Preferences are loaded from your saved application settings.
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    // Connect your edit modal or edit-mode state here.
+                  }}
+                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                  <FiSettings size={16} />
+                  Edit Preferences
+                </button>
+              </div>
+            </section>
             <div className="w-full space-y-4">
               {/* Header */}
               <div

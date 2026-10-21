@@ -29,6 +29,7 @@ import { Toaster } from "sonner";
 import Loader from "../Components/Loader";
 import { Toast } from "../Components/Toast";
 import NaukriLogin from "../Components/NaukriLogin";
+import { applications_ApplyLimit, JOB_EXP, SalaryRange, WORK_MODE } from "../Components/Local";
 
 function Settings() {
     const Theme = useSelector((state: any) => state.counter.value);
@@ -197,9 +198,10 @@ function Settings() {
                 appsetting
             );
 
-            console.log("Response:", response.data);
+            console.log("Response:", response);
+            localStorage.setItem("Job", JSON.stringify(response?.data.AppSetting))
             return Toast(
-                { messages: response?.data, code: response?.status, type: "sucess" }
+                { messages: response?.data.message, code: response?.status, type: "sucess" }
             )
         } catch (error: any) {
             alert(error?.response?.data?.message);
@@ -208,7 +210,7 @@ function Settings() {
             )
         }
     }
-    const WORK_MODE = ["Hybrid / On-site", "On-site", "Hybrid", "Remote", "Any"]
+
 
     const SectionHeader = ({ icon: Icon, title, description }: any) => (
         <div className="flex items-start gap-3 border-b border-slate-200/20 px-5 py-5 sm:px-6">
@@ -345,7 +347,7 @@ function Settings() {
                                             .value
                                         )}>
                                             {
-                                                ["Fresher", "0-1", "1-3", "3-5"].map((yer, idx) => (
+                                                JOB_EXP.map((yer, idx) => (
                                                     <option value={yer} key={idx}>{yer} {yer == 'Fresher' ? "" : "Year"}</option>
                                                 ))
                                             }
@@ -368,25 +370,7 @@ function Settings() {
                                         <label className={labelClass}>Expected Salary</label>
                                         <select className={inputClass} defaultValue="3 LPA" onChange={(e) => setSalary(e.target.value)}>
 
-                                            {[
-                                                "3 LPA",
-                                                "4 LPA",
-                                                "5 LPA",
-                                                "6 LPA",
-                                                "7 LPA",
-                                                "8 LPA",
-                                                "9 LPA",
-                                                "10 LPA",
-                                                "12 LPA",
-                                                "15 LPA",
-                                                "18 LPA",
-                                                "20 LPA",
-                                                "25 LPA",
-                                                "30 LPA",
-                                                "40 LPA",
-                                                "50 LPA",
-                                                "50+ LPA",
-                                            ].map((salary, idx) => (
+                                            {SalaryRange.map((salary, idx) => (
                                                 <option value={salary} key={idx}>
                                                     {salary}
                                                 </option>
@@ -398,11 +382,13 @@ function Settings() {
                                     <div>
                                         <label className={labelClass}>Daily Application Limit</label>
                                         <select className={inputClass} defaultValue="10" onClick={(e: any) => setapplicationlimit(e.target.value)}>
-                                            <option value="5">5 applications</option>
-                                            <option value="10">10 applications</option>
-                                            <option value="15">15 applications</option>
-                                            <option value="20">20 applications</option>
-                                            <option value="25">25 applications</option>
+                                            {applications_ApplyLimit.map((limit, idx) => (
+
+
+
+                                                <option value={limit} key={idx}>{limit} applications</option>
+
+                                            ))}
                                         </select>
                                     </div>
                                 </div>
