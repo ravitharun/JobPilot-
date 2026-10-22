@@ -23,7 +23,7 @@ public class SeleniumPracticeController {
 
     public String TestSelinium() {
         // seleniumPracticeService
-        return seleniumPracticeService.loginToNaukri();
+        return seleniumPracticeService.loginToNaukri(null, null);
     }
 
 }

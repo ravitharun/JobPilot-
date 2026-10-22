@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Dto.AppSettingDTO;
-
+import com.example.Dto.JobPreferencesDTO;
 import com.example.Services.AppSettingServices;
 
 @RestController
@@ -31,11 +31,19 @@ public class AppSettingController {
         return getSetting_app.GetSetting_app(userid);
     }
 
+    // all settings application
     @PutMapping("/Update/Settings")
     public ResponseEntity<?> UpdateSettings(
             @RequestBody AppSettingDTO appsetting) {
 
         return getSetting_app.UpdateSettings(appsetting);
+    }
+    // job prefernce
+
+    @PutMapping("/update/JobPrefence")
+    public ResponseEntity<?> UpdateJobPrefence(
+            @RequestBody JobPreferencesDTO job) {
+        return getSetting_app.UpdatejobPrefernceService(job);
     }
 
 }

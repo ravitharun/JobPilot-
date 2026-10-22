@@ -7,7 +7,6 @@ import {
   FiBriefcase,
   FiClock,
   FiCheckCircle,
-  FiAlertCircle,
   FiZap,
 } from "react-icons/fi"
 import MainSidebar from "../Components/MainSidebar"
@@ -16,7 +15,10 @@ import MobileNavigation from "../Components/MobileNav"
 import { useDispatch, useSelector } from "react-redux";
 import { UpdateNaviagtion } from "../Store/Navigation";
 import { Link } from "react-router-dom";
-import { applications_ApplyLimit, JOB_EXP, User_JobPrefence } from "../Components/Local";
+import { applications_ApplyLimit, JOB_EXP, user, User_JobPrefence } from "../Components/Local";
+import { useState } from "react";
+import { toast } from "sonner";
+import api from "../Components/ApiInsstance";
 
 function JobAutomation() {
 
@@ -24,7 +26,40 @@ function JobAutomation() {
   useSelector((state: any) => state.navigationPages.value);
   const updatenavigationPages = useDispatch();
 
+  const [jobrole, setjobrole] = useState<string>(User_JobPrefence?.PreferredJobRole || "");
+  const [prefedLocation, setprefedLocation] = useState<string>(User_JobPrefence?.PreferredLocation || "");
+  const [exp, setexp] = useState<string>(User_JobPrefence?.ExperienceLevel || "");
+  const [DailyApplicationlmt, setDailyApplicationlmt] = useState<string>(User_JobPrefence?.DailyApplicationLimit || "");
 
+
+
+
+  const handelEditPrefence = async () => {
+
+    if (!user?.ApplicationuserId) {
+
+      toast.info("Some Thing Went Wrong.")
+      return window.location.href = "/login"
+    }
+
+    const jobautodata = {
+      userApplicationId: user?.ApplicationuserId ,
+      PreferredJobRole: jobrole,
+      PreferredLocation: prefedLocation,
+      ExperienceLevel: exp,
+      WorkMode: "workMode",
+      ExpectedSalary: "expectedSalary",
+      DailyApplicationLimit: DailyApplicationlmt,
+    };
+    try {
+      const response = await api.put("/AppSettings/update/JobPrefence", jobautodata)
+      console.log(response)
+    } catch (error: any) {
+
+    }
+
+
+  }
 
   return (
     <>
@@ -292,9 +327,9 @@ function JobAutomation() {
                     <input
                       id="job-role"
                       type="text"
-                      value={User_JobPrefence?.PreferredJobRole ?? ""}
+                      value={jobrole}
                       placeholder="e.g. Java Developer"
-                      // readOnly
+                      onChange={(e) => setjobrole(e.target.value)}
                       className={`w-full min-w-0 bg-transparent py-3 text-sm font-medium outline-none ${Theme ? "text-slate-200" : "text-slate-700"
                         }`}
                     />
@@ -321,11 +356,11 @@ function JobAutomation() {
                     <input
                       id="job-location"
                       type="text"
-                      value={User_JobPrefence?.PreferredLocation ?? "user"}
+                      value={prefedLocation}
                       placeholder="e.g. Bengaluru"
-   
 
-                      onChange={(e) => console.log(e.target.value)}
+                      // onChange={handelForm}
+                      onChange={(e) => setprefedLocation(e.target.value)}
                       className={`w-full min-w-0 bg-transparent py-3 text-sm font-medium outline-none ${Theme ? "text-slate-200" : "text-slate-700"
                         }`}
                     />
@@ -351,8 +386,8 @@ function JobAutomation() {
 
                     <select
                       id="job-experience"
-                      value={User_JobPrefence?.ExperienceLevel ?? ""}
-
+                      value={exp}
+                      onChange={(e) => setexp(e.target.value)}
                       className={`w-full min-w-0 appearance-none bg-transparent py-3 text-sm font-medium outline-none ${Theme ? "text-slate-200" : "text-slate-700"
                         }`}
                     >
@@ -386,10 +421,11 @@ function JobAutomation() {
 
                     <select
                       id="daily-limit"
-                      value={String(User_JobPrefence?.DailyApplicationLimit ?? "")}
+                      value={String(DailyApplicationlmt)}
 
                       className={`w-full min-w-0 appearance-none bg-transparent py-3 text-sm font-medium outline-none ${Theme ? "text-slate-200" : "text-slate-700"
                         }`}
+                      onChange={(e) => setDailyApplicationlmt(e.target.value)}
                     >
                       {/* <option value="">Not configured</option> */}
 
@@ -414,9 +450,7 @@ function JobAutomation() {
 
                 <button
                   type="button"
-                  onClick={() => {
-                    // Connect your edit modal or edit-mode state here.
-                  }}
+                  onClick={handelEditPrefence}
                   className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
                   <FiSettings size={16} />
