@@ -190,4 +190,27 @@ public class AppSettingServices {
                 }
         }
 
+        // update the job prefence data
+        public ResponseEntity<?> UpdatejobPrefernceService(JobPreferencesDTO job) {
+
+                JobSearchPreferences update_j = jobSearchPreferencesRepo
+                                .findByUserApplicationId(job.getUserApplicationId());
+
+                if (update_j == null) {
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Job prefence Fpund");
+                }
+
+                update_j.setDailyApplicationLimit(job.getDailyApplicationLimit());
+                update_j.setExpectedSalary(job.getExpectedSalary());
+                update_j.setPreferredJobRole(job.getPreferredJobRole());
+                update_j.setPreferredLocation(job.getPreferredLocation());
+                update_j.setWorkMode(update_j.getWorkMode());
+                JobSearchPreferences Updated_JobPref = jobSearchPreferencesRepo.saveAndFlush(update_j);
+
+                Map<String, Object> m = new HashMap<>();
+                m.put("code", HttpStatus.OK);
+                m.put("message", "job prefernc is update");
+                m.put("data", Updated_JobPref);
+                return ResponseEntity.status(HttpStatus.OK).body(m);
+        }
 }
