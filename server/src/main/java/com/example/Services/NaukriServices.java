@@ -3,6 +3,8 @@ package com.example.Services;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +30,9 @@ public class NaukriServices {
     public ResponseEntity<Map<String, Object>> AddNaukriCredtianls(NaukriDto NaukriLogin) {
         Map<String, Object> m = new HashMap<>();
         NaukiriLoginModel nm = new NaukiriLoginModel();
-
+        WebDriver driver = new ChromeDriver();
         String Test_NaukriLogin = NaukriCheckLogin.loginToNaukri(NaukriLogin.getUser_Naukri_email(),
-                NaukriLogin.getUser_Naukri_passwrod());
+                NaukriLogin.getUser_Naukri_passwrod(), driver);
         if (Test_NaukriLogin.equals("Login valid")) {
             // db we need to save
 

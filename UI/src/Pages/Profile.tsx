@@ -23,11 +23,14 @@ import Headers from "../Components/Headers";
 import MobileNavigation from "../Components/MobileNav";
 import { useSelector } from "react-redux";
 import api from "../Components/ApiInsstance";
+import { Toast } from "../Components/Toast";
+import { Toaster } from "sonner";
+import { CheckReload } from "../Components/Reload";
 
 function Profile() {
     const Theme = useSelector((state: any) => state.counter.value);
     const [editing, setEditing] = useState(false);
-
+    CheckReload()
     const [profile, setProfile] = useState({
         name: "",
         email: "",
@@ -49,17 +52,17 @@ function Profile() {
         const GetProfile = async () => {
 
 
-            try {
-                const response = await api.get("Profile/User/profile", {
-                    params: {
-                        userid: a.ApplicationuserId
-                    }
-                })
-                console.log(response?.data?.data)
-                console.log(response?.status)
-            } catch (error) {
+            // try {
+            //     const response = await api.put("Profile/User/profile", {
+            //         params: {
+            //             userid: a.ApplicationuserId
+            //         }
+            //     })
+            //     console.log(response?.data?.data)
+            //     console.log(response?.status)
+            // } catch (error) {
 
-            }
+            // }
         }
         GetProfile()
     }, [a])
@@ -71,10 +74,18 @@ function Profile() {
         setProfile((prev) => ({ ...prev, [name]: value }));
     };
 
-    const saveProfile = (e: any) => {
+    const saveProfile = async (e: any) => {
         e.preventDefault();
-        // Connect this handler to your Spring Boot profile API.
         setEditing(false);
+        try {
+            const response = await api.put("Profile/User/profile", a.ApplicationuserId
+            )
+
+            return Toast({ messages: response?.data?.message, code: response?.status, type: "Sucess" })
+        } catch (error) {
+            return Toast({ messages: "error", code: 500, type: "error" })
+
+        }
     };
 
 
@@ -139,6 +150,7 @@ function Profile() {
                 : "bg-slate-50 text-slate-800"
                 }`}
         >
+            <Toaster richColors></Toaster>
             <MainSidebar />
 
             <main className="lg:ml-64">
@@ -187,6 +199,7 @@ function Profile() {
                                 <button
                                     type="submit"
                                     form="profile-form"
+                                    // onClick={() => alert("test")}
                                     className="flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-700"
                                 >
                                     <FiSave />

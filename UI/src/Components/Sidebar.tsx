@@ -4,7 +4,9 @@ import { UpdateNaviagtion } from "../Store/Navigation";
 function Sidebar({ icon, label }: any) {
     const Theme = useSelector((state: any) => state.counter.value);
     const navigation = useSelector((state: any) => state.navigationPages.value);
+
     const updatenavigationPages = useDispatch();
+   
 
     return (
         <button
@@ -16,7 +18,11 @@ function Sidebar({ icon, label }: any) {
                     ? "text-slate-300 hover:bg-slate-800"
                     : "text-slate-600 hover:bg-slate-100"
                 }`}
-            onClick={() => updatenavigationPages(UpdateNaviagtion(label))}
+            onClick={() => {
+                console.log(label)
+
+                updatenavigationPages(UpdateNaviagtion(label))
+            }}
         >
             {icon}
             <span>{label}</span>

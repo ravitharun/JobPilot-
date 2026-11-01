@@ -10,6 +10,7 @@ import { TfiClose } from "react-icons/tfi";
 import SidebarMenu from "./SidebarMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { UpdateTheme } from "../Store/ThemeSlicer";
+import { user } from "./Local";
 
 function Headers() {
 
@@ -56,27 +57,28 @@ function Headers() {
                         <FiBriefcase size={19} />
                     </div>
 
-
                     {/* Title */}
-                    <div>
-
-                        <p
-                            className={`text-xs font-medium sm:text-sm ${Theme
-                                ? "text-slate-400"
-                                : "text-slate-500"
-                                }`}
-                        >
-                            Welcome back 👋
-                        </p>
+                    <div className="space-y-2">
 
                         <h2
-                            className={`text-lg font-bold sm:text-xl ${Theme
-                                ? "text-white"
-                                : "text-slate-900"
+                            className={`text-xl font-bold tracking-tight sm:text-2xl ${Theme ? "text-white" : "text-slate-900"
                                 }`}
                         >
                             Dashboard
                         </h2>
+
+                        <div className="flex flex-wrap items-center gap-2">
+                            <span className="text-sm">👋</span>
+
+                            <p className={`text-xs font-medium sm:text-sm ${Theme ? "text-slate-400" : "text-slate-500"
+                                }`}>
+                                Welcome back,
+                                <span className={`ml-1 font-semibold ${Theme ? "text-indigo-400" : "text-indigo-600"
+                                    }`}>
+                                    {user?.userName || "User"}
+                                </span>
+                            </p>
+                        </div>
 
                     </div>
 

@@ -11,19 +11,24 @@ import Login from './Pages/Login.tsx';
 import Signup from './Pages/SignUp.tsx';
 import Profile from './Pages/Profile.tsx';
 import Settings from './Pages/Settings.tsx';
+import Application from './Pages/Application.tsx';
 
 
 createRoot(document.getElementById('root')!).render(
+
+
   <BrowserRouter>
     <Provider store={store}>
       <Routes>
         <Route path="*" element={<PageNotFound />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path="/Settings" element={<Settings />} />
+        <Route path="/Application" element={<Application />} />
         <Route path="/" element={<App />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/Automation" element={<JobAutomation />} />
+
       </Routes>
     </Provider>
   </BrowserRouter>

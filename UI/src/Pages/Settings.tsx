@@ -30,6 +30,7 @@ import Loader from "../Components/Loader";
 import { Toast } from "../Components/Toast";
 import NaukriLogin from "../Components/NaukriLogin";
 import { applications_ApplyLimit, JOB_EXP, SalaryRange, WORK_MODE } from "../Components/Local";
+import {CheckReload} from "../Components/Reload";
 
 function Settings() {
     const Theme = useSelector((state: any) => state.counter.value);
@@ -73,7 +74,7 @@ function Settings() {
     let a: any | string | null = JSON.parse(localStorage.getItem("User") ?? "")
 
     // console.log(a.ApplicationuserId)
-
+    CheckReload()
 
     useEffect(() => {
 

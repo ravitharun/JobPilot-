@@ -6,19 +6,38 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.example.Model.JobSearchPreferences;
+import com.example.Model.NaukiriLoginModel;
+import com.example.Repository.JobSearchPreferencesRepo;
+import com.example.Repository.NaukiriRepo;
+import com.example.demo.Controller.PasswordConfig;
+
+import io.opentelemetry.internal.shaded.jctools.queues.MessagePassingQueue.WaitStrategy;
 
 @Service
 
 public class SeleniumPracticeService {
 
-    public String loginToNaukri(String user_email, String userpasswordNaukri) {
+    @Autowired
+    NaukiriRepo naukriRepo;
+    @Autowired
+    PasswordConfig PasswordConfig;
 
-        WebDriver driver = new ChromeDriver();
+    @Autowired
+    JobSearchPreferencesRepo job;
+
+    public String loginToNaukri(String user_email, String userpasswordNaukri, WebDriver driver) {
+
+        // WebDriver driver = new ChromeDriver();
 
         try {
             System.err.println(user_email + " " + userpasswordNaukri);
@@ -70,8 +89,95 @@ public class SeleniumPracticeService {
             e.printStackTrace();
             return "Login failed or needs verification: " + e.getMessage();
 
+        }
+    }
+
+    public String StartAutomation(long userid) {
+
+        JobSearchPreferences job_pref = job.findByUserApplicationId(userid);
+
+        NaukiriLoginModel n = naukriRepo.findByApplicationuserid(userid);
+
+        if (n == null) {
+            return "There is no Naukri account connected";
+        }
+
+        WebDriver driver = new ChromeDriver();
+
+        try {
+            String s_login = loginToNaukri(
+                    n.getNaukiriEmail(),
+                    "tharun2005",
+                    driver);
+
+            System.out.println(s_login);
+
+            if ("Login valid".equals(s_login)) {
+
+                System.out.println("Opening new tab for job search");
+
+                // Open a new tab in the same browser session
+                driver.switchTo().newWindow(WindowType.TAB);
+
+                driver.get("https://www.naukri.com/mnjuser/homepage");
+
+                WebDriverWait wait = new WebDriverWait(
+                        driver, Duration.ofSeconds(30));
+
+                wait.until(ExpectedConditions.elementToBeClickable(
+                        By.className("nI-gNb-sb__expand"))).click();
+
+                return "Job search opened successfully";
+            }
+
+            return s_login;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getMessage() + "Autoamtion");
+            return "Automation failed: " + e.getMessage();
+        }
+    }
+
+    // naukri Profile update
+    public String UpdateNaukriProfile() {
+
+        WebDriver driver = new ChromeDriver();
+        String s_login = loginToNaukri(
+                "tr565003@gmail.com",
+                "tharun2005",
+                driver);
+        try {
+            if ("Login valid".equals(s_login)) {
+
+                driver.get("https://www.naukri.com/mnjuser/profile?id=&altresid");
+
+                WebDriverWait wait = new WebDriverWait(
+                        driver, Duration.ofSeconds(30));
+
+                String Rsumeurl = "";
+
+                WebElement fileInput = wait.until(
+                        ExpectedConditions.presenceOfElementLocated(
+                                By.cssSelector("input.upload-input[type='file']")));
+
+                // 2. Upload the resume using its absolute path
+                fileInput.sendKeys(
+                        Rsumeurl);
+
+                WebElement Update = wait
+                        .until(ExpectedConditions.elementToBeClickable(By.className("upload-button")));
+                Update.click();
+            } else {
+                System.err.println("Login failed");
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.err.println(e.getMessage() + "Profile Update Automation Issue");
         } finally {
             driver.quit();
         }
+        return "naukri profile update.";
     }
+
 }

@@ -1,6 +1,5 @@
 import {
-  FiPlay,
-  FiPause,
+
   FiSettings,
   FiSearch,
   FiMapPin,
@@ -17,8 +16,11 @@ import { UpdateNaviagtion } from "../Store/Navigation";
 import { Link } from "react-router-dom";
 import { applications_ApplyLimit, JOB_EXP, user, User_JobPrefence } from "../Components/Local";
 import { useState } from "react";
-import { toast } from "sonner";
+import { toast, Toaster } from "sonner";
 import api from "../Components/ApiInsstance";
+import { FaPause, FaPlay } from "react-icons/fa";
+import { Toast } from "../Components/Toast";
+import { CheckReload } from "../Components/Reload";
 
 function JobAutomation() {
 
@@ -32,7 +34,7 @@ function JobAutomation() {
   const [DailyApplicationlmt, setDailyApplicationlmt] = useState<string>(User_JobPrefence?.DailyApplicationLimit || "");
 
 
-
+  CheckReload()
 
   const handelEditPrefence = async () => {
 
@@ -43,7 +45,7 @@ function JobAutomation() {
     }
 
     const jobautodata = {
-      userApplicationId: user?.ApplicationuserId ,
+      userApplicationId: user?.ApplicationuserId,
       PreferredJobRole: jobrole,
       PreferredLocation: prefedLocation,
       ExperienceLevel: exp,
@@ -53,14 +55,42 @@ function JobAutomation() {
     };
     try {
       const response = await api.put("/AppSettings/update/JobPrefence", jobautodata)
-      console.log(response)
-    } catch (error: any) {
+      console.log(response.status, "Check the api")
+      console.log(response.data.message, "Check the api")
 
+      toast.success(response.data.message)
+    } catch (error: any) {
+      return Toast({
+
+        message: error?.response.data.message,
+        status: error?.response.status,
+        type: "Error"
+
+      })
     }
 
 
   }
 
+  const [isAutomationStart, setisAutomationStart] = useState<boolean>(false);
+  // automation logic 
+  const HandelStart = async () => {
+
+
+    setisAutomationStart((prev) => !prev);
+
+    try {
+      const response_Automation = await api.get("/Automation/Start", {
+        params: {
+          "userid": user?.ApplicationuserId
+        }
+      })
+    } catch (error) {
+
+    }
+
+
+  }
   return (
     <>
       <div
@@ -71,6 +101,7 @@ function JobAutomation() {
       >
         <MainSidebar />
         <MobileNavigation />
+        <Toaster theme="system" richColors></Toaster>
 
         <main className="lg:ml-64">
           <Headers />
@@ -138,15 +169,32 @@ function JobAutomation() {
                 </div>
 
                 <div className="flex gap-3">
-                  <button className="flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-slate-900 transition hover:bg-slate-100">
-                    <FiPause size={16} />
-                    Pause
+                  <button className="flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
+
+                    onClick={HandelStart}
+                  >
+
+                    {isAutomationStart ?
+
+                      <>
+                        <FaPause />
+                        Stop
+                      </>
+                      :
+
+                      <>
+
+                        <FaPlay size={16} />
+                        Start
+                      </>
+
+                    }
                   </button>
 
-                  <button className="flex items-center justify-center gap-2 rounded-xl border border-slate-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800">
+                  {/* <button className="flex items-center justify-center gap-2 rounded-xl border border-slate-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800">
                     <FiPlay size={16} />
                     Restart
-                  </button>
+                  </button> */}
                 </div>
 
               </div>
