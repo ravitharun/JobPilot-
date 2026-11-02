@@ -77,8 +77,13 @@ function Profile() {
     const saveProfile = async (e: any) => {
         e.preventDefault();
         setEditing(false);
+        const profileInfo = {
+            profile,
+            "id": a.ApplicationuserId
+        }
+        console.log(profileInfo, "profileInfo")
         try {
-            const response = await api.put("Profile/User/profile", a.ApplicationuserId
+            const response = await api.put("Profile/User/profile", profileInfo
             )
 
             return Toast({ messages: response?.data?.message, code: response?.status, type: "Sucess" })
