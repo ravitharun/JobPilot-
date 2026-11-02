@@ -65,7 +65,7 @@ const applications = [
     },
 ];
 
-const statusStyles = {
+const statusStyles: any = {
     Applied: 'bg-emerald-50 text-emerald-700',
     Interview: 'bg-violet-50 text-violet-700',
     Pending: 'bg-amber-50 text-amber-700',
@@ -73,7 +73,7 @@ const statusStyles = {
 };
 type ApplicationStatus = "Applied" | "Interview" | "Pending" | "Rejected";
 
-const statusIcons: Record<ApplicationStatus, IconType> = {
+const statusIcons: Record<ApplicationStatus, IconType> | any = {
     Applied: FiCheckCircle,
     Interview: FiCalendar,
     Pending: FiClock,
@@ -282,7 +282,7 @@ function Application() {
                                 <div className={`divide-y md:hidden ${Theme ? "divide-slate-800" : "divide-slate-100"
                                     }`}>
                                     {filteredApplications.map((app: any) => {
-                                        const StatusIcon: any = statusIcons[app.status];
+                                        const StatusIcon = statusIcons[app.status];
 
                                         return (
                                             <article key={app.id} className="p-4">

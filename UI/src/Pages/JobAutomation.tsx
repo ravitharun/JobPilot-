@@ -85,6 +85,9 @@ function JobAutomation() {
           "userid": user?.ApplicationuserId
         }
       })
+
+      console.log(response_Automation, "response_Automation CHeck");
+
     } catch (error) {
 
     }
