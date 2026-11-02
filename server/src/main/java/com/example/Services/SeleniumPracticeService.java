@@ -19,7 +19,7 @@ import com.example.Repository.JobSearchPreferencesRepo;
 import com.example.Repository.NaukiriRepo;
 import com.example.demo.Controller.PasswordConfig;
 
-import io.opentelemetry.internal.shaded.jctools.queues.MessagePassingQueue.WaitStrategy;
+// import io.opentelemetry.internal.shaded.jctools.queues.MessagePassingQueue.WaitStrategy;
 
 @Service
 
