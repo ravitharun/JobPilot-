@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.MediaType;
+
+import com.example.Dto.ProfileDto;
 // import org.springframework.http.ResponseEntity;
 // import org.springframework.web.bind.annotation.*;
 // import org.springframework.web.multipart.MultipartFile;
@@ -56,7 +58,8 @@ public class Profile {
         }
 
         @PutMapping("/User/profile")
-        public ResponseEntity<Map<String, Object>> UpdateProfile(@RequestBody Long userid) {
+        public ResponseEntity<Map<String, Object>> UpdateProfile(@RequestBody ProfileDto userid) {
+
                 return userProfileServices.UpdateUseeProfile(userid);
 
         }
